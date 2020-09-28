@@ -77,3 +77,14 @@ if c_npv - college_cost_npv > hs_npv:
     print("The student should got to college")
 else:
     print("Student not got to college")
+
+#Using zip
+
+cities = ["Phoenix", "Austin", "San Diego", "New York"]
+states = ["Arizona", "Texas", "California", "New York"]
+
+zipped = zip(cities, states)
+
+statements = [(f"{city} is in {state}") for city, state in zipped]
+for statement in statements:
+    print(statement)
