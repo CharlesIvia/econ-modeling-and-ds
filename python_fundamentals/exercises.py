@@ -26,3 +26,14 @@ print(test.replace("c", "d"))
 
 #String formating
 
+#Iterations
+
+students = ["Alpha", "Harriet", "Joy", "Kamau"]
+marks = [72, 65, 66, 76]
+
+en = enumerate(students)
+print(list(en))
+
+for index, student in enumerate(students):
+    mark = marks[index]
+    print(f"{student} has {mark} points")
