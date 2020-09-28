@@ -88,3 +88,9 @@ zipped = zip(cities, states)
 statements = [(f"{city} is in {state}") for city, state in zipped]
 for statement in statements:
     print(statement)
+
+
+#Using for loop
+
+for city, state in zip(cities, states):
+    print(f"{city} is in {state}")
