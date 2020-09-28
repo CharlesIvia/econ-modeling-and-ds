@@ -1,3 +1,5 @@
+import datetime
+
 #Zero-coupon bonds
 
 paid = 100
@@ -9,3 +11,16 @@ def zero_coupon_bond(p, t, r):
     return p / ((1 + r)**t)
 
 print(zero_coupon_bond(paid, time, interest))
+
+
+#Greetings
+
+current_time = datetime.datetime.now()
+
+hour = current_time.hour
+
+if hour > 6 and hour < 12:
+    print("Good morning!")
+
+elif hour > 12 and hour < 18:
+    print("Good evening!")
