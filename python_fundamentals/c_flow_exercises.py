@@ -1,4 +1,5 @@
 import datetime
+import numpy as np
 
 #Zero-coupon bonds
 
@@ -24,3 +25,17 @@ if hour > 6 and hour < 12:
 
 elif hour > 12 and hour < 18:
     print("Good evening!")
+
+
+#Working with random numbers
+
+x = np.random.random()
+
+print(x)
+
+if x < 0.5:
+    print(f"{x} is less than 0.5")
+else:
+    print(f"{x} is greater than 0.5")
+    
+    
