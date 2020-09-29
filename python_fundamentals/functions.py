@@ -63,5 +63,34 @@ returns = returns_to_scale(1, 0.5, 2)
 print(returns)
 
 #For an example of a production function that is not CRS,
-#  look at a generalization of the Cobb-Douglas production
+# look at a generalization of the Cobb-Douglas production
 # function that has different “output elasticities” for the 2 inputs.
+
+
+#Multiple returns- marginal product
+# how output changes as we change only one of the inputs. We will call this the marginal product.
+
+#MPL defined => F(K,L + e) - F(K,L) / e
+
+#MPL(K,L) = ΔF(K,L) / ΔL
+#MPK(K,L) = ΔF(K,L) / ΔK
+
+
+#Computing MPL and MPK
+
+def marginal_products(K, L, epsilon):
+    mpl = (cobb_douglas(K, L + epsilon) - cobb_douglas(K, L)) / epsilon
+    mpk = (cobb_douglas(K + epsilon, L) - cobb_douglas(K, L)) / epsilon
+    return mpl, mpk
+
+m_products = marginal_products(1, 0.5, 0.0001)
+print(m_products)
+
+mpl, mpk = marginal_products(1, 0.5, 0.0001)
+print(f"mpl = {mpl}, mpk = {mpk}")
+
+#Using comprehension to get mps of K whilw fixing l
+Ks = [1, 2, 3]
+
+mpks = [marginal_products(K, 0.5, 0.0001) for K in Ks]
+print(mpks)
