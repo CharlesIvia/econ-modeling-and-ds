@@ -39,3 +39,29 @@ print(output)
 #If Y2/Y1 < γ => prod fn has decreasing returns to scale
 #If Y2/Y1 = γ => prod fn has constant returns to scale
 #If Y2/Y1 > γ => prod fn has increasing returns to scale
+
+
+y1 = cobb_douglas(1, 0.5)
+print(y1)
+
+y2 = cobb_douglas(2*1, 2*0.5)
+print(y2)
+
+scale = y2 / y1
+print(scale)  # => 2, therefore Y2 was exactly double y1
+
+#returns to scale fn
+
+
+def returns_to_scale(K, L, gamma):
+    y1 = cobb_douglas(K, L)
+    y2 = cobb_douglas(gamma * K, gamma*L)
+    y_ratio = y2 / y1
+    return y_ratio / gamma
+
+returns = returns_to_scale(1, 0.5, 2)
+print(returns)
+
+#For an example of a production function that is not CRS,
+#  look at a generalization of the Cobb-Douglas production
+# function that has different “output elasticities” for the 2 inputs.
