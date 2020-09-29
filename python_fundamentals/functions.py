@@ -31,3 +31,11 @@ def cobb_douglas(K, L):
 output = cobb_douglas(1.0, 0.5)
 
 print(output)
+
+#Returns to scale
+
+#If, for K, L we multiply K,L by a value γ
+
+#If Y2/Y1 < γ => prod fn has decreasing returns to scale
+#If Y2/Y1 = γ => prod fn has constant returns to scale
+#If Y2/Y1 > γ => prod fn has increasing returns to scale
