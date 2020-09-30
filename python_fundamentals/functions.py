@@ -89,8 +89,26 @@ print(m_products)
 mpl, mpk = marginal_products(1, 0.5, 0.0001)
 print(f"mpl = {mpl}, mpk = {mpk}")
 
+mpl, mpk = marginal_products(2, 0.5, 0.0004)
+print(mpl, mpk)
+
 #Using comprehension to get mps of K whilw fixing l
 Ks = [1, 2, 3]
 
 mpks = [marginal_products(K, 0.5, 0.0001) for K in Ks]
 print(mpks)
+
+#Default and keyword arguments
+
+
+def cobb_douglas(K, L, alpha=0.33, z=1):
+    """
+    Computes the production F(K, L) for a Cobb-Douglas production function
+
+    Takes the form F(K, L) = z K^{\alpha} L^{1 - \alpha}
+    """
+    return z * K**(alpha) * L**(1.0 - alpha)
+
+print(cobb_douglas(1.0, 0.5))
+print(cobb_douglas(1.0, 0.5, 0.35, 1.6))
+print(cobb_douglas(1.0, 0.5, z=1.5))
