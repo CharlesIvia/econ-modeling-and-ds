@@ -161,3 +161,20 @@ print(x.min())
 # print(x.diff())  # this one is not a method...
 print(x.reshape((5, 2)))
 
+
+#EXERCISES
+
+#indexing into a 3d array
+
+j_3d = np.zeros((2, 3, 4))
+print(j_3d)
+
+
+k_3d = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+print(k_3d)
+
+print(k_3d[0, :])  # first section of array
+print(k_3d[0, 0, :])  # first row
+print(k_3d[0, 0, 0])  # first element
+
+print(k_3d[:,:, 0])
