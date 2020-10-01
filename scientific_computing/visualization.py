@@ -47,4 +47,25 @@ for (ax, c) in zip(axes.flat, colors):
 
 fig.tight_layout()
 
+
+#Functionality
+
+#BAR
+
+countries = ["CAN", "MEX", "USA"]
+populations = [36.7, 129.2, 325.700]
+land_area = [3.850, 0.761, 3.790]
+
+fig, ax = plt.subplots(2)
+
+ax[0].bar(countries, populations, align="center")
+ax[0].set_title("Populations (in millions)")
+
+ax[1].bar(countries, land_area, align="center")
+ax[1].set_title("Land area (in millions miles squared)")
+
+
+fig.tight_layout()
+
+
 plt.show()
