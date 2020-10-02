@@ -15,3 +15,11 @@ print("Element-wise Addition", x + y)
 print("Element-wise Subtraction", x - y)
 print("Element-wise Multiplication", x * y)
 print("Element-wise Division", x / y)
+
+#Scalar operations
+
+print("Scalar Addition", 3 + x)
+print("Scalar Subtraction", 3 - x)
+print("Scalar Multiplication", 3 * x)
+print("Scalar Division", 3 / x)
+
