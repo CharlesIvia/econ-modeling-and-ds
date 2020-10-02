@@ -23,3 +23,6 @@ print("Scalar Subtraction", 3 - x)
 print("Scalar Multiplication", 3 * x)
 print("Scalar Division", 3 / x)
 
+#Dot product
+
+print("Dot product with @ ", x@y)
