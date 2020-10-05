@@ -105,3 +105,15 @@ print("I @ x", "\n", I @ x)
 print("x @ I", "\n", x @ I)
 print("I @ y", "\n", I @ y)
 print("y @ I", "\n", y @ I)
+
+#Matrix inverse
+
+# This is a square (N x N) non-singular matrix
+A = np.array([[1, 2, 0], [3, 1, 0], [0, 1, 2]])
+
+print("This is A inverse")
+
+print(np.linalg.inv(A))
+
+print("Check that A @ A inverse is I")
+print(np.linalg.inv(A) @ A)
