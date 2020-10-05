@@ -89,3 +89,19 @@ print(y1 @ x1)
 x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 print("x transpose is")
 print(x.transpose())
+
+#Identity matrix -When we multiply any matrix or vector
+# by the identity matrix, we get the original matrix or vector back!
+
+I = np.eye(3)
+print(I)
+
+x = np.reshape(np.arange(9), (3, 3))
+print(x)
+y = np.array([1, 2, 3])
+print(y)
+
+print("I @ x", "\n", I @ x)
+print("x @ I", "\n", x @ I)
+print("I @ y", "\n", I @ y)
+print("y @ I", "\n", y @ I)
