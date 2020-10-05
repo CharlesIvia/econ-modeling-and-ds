@@ -83,3 +83,9 @@ print("Using the dot function for vec and mat")
 print(np.dot(y1, x1))
 print("Using @ for vec and mat")
 print(y1 @ x1)
+
+#Matrix transpose
+
+x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print("x transpose is")
+print(x.transpose())
