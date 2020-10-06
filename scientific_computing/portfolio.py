@@ -114,13 +114,13 @@ ax.hlines(NPV_oo, Ts[0], Ts[-1], color="k", linestyle="--")
 ax.spines["right"].set_visible(False)
 ax.spines["top"].set_visible(False)
 
-#plt.show()
+# plt.show()
 
 
-#UNEMPLOYMENT DYNAMICS
+# UNEMPLOYMENT DYNAMICS
 
-#alpha = 5% of workers lose jibs
-#phi = 10% of unemployed workers find jobs
+# alpha = 5% of workers lose jibs
+# phi = 10% of unemployed workers find jobs
 
 phi = 0.1
 alpha = 0.05
@@ -129,13 +129,13 @@ x0 = np.array([900000, 100000])
 
 print(x0)
 
-A = np.array([[1-alpha, alpha], [phi, 1 - phi]])
+A = np.array([[1 - alpha, alpha], [phi, 1 - phi]])
 
 print(A)
 
 
 def simulate(x0, A, T=10):
-    """ Simulate the dynamics of unemployment for T periods starting from x0
+    """Simulate the dynamics of unemployment for T periods starting from x0
     and using values of A for probabilities of moving between employment
     and unemployment
     """
@@ -144,6 +144,20 @@ def simulate(x0, A, T=10):
     out[0, :] = x0
 
     for t in range(1, T):
-        out[t, :] = A.T @ out[t-1, :]
+        out[t, :] = A.T @ out[t - 1, :]
     return out
 
+
+def plot_simulation(x0, A, T=100):
+    X = simulate(x0, A, T)
+    fig, ax = plt.subplots()
+    ax.plot(X[:, 0])
+    ax.plot(X[:, 1])
+    ax.set_xlabel("t")
+    ax.legend(["Employed", "Unemployed"])
+    return ax
+
+
+plot_simulation(x0, A, 50)
+
+plt.show()
