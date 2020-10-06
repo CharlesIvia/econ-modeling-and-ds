@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-#Static payoffs - As an example, consider a portfolio with 4 units of asset A, 2.5 units of asset B, and 8 units of asset C.
+# Static payoffs - As an example, consider a portfolio with 4 units of asset A, 2.5 units of asset B, and 8 units of asset C.
 
-#At a particular point in time, the assets pay 3/unit of asset A, 5/unit of B, and 1.10/unit of C.
+# At a particular point in time, the assets pay 3/unit of asset A, 5/unit of B, and 1.10/unit of C.
 
 port_value = 4 * 3 + 2.5 * 5 + 8 * 1.1
 print(port_value)
@@ -21,7 +21,7 @@ print(p)
 
 print(np.dot(x, y))
 
-#Pricing different portfolios
+# Pricing different portfolios
 
 
 y = np.array([3.0, 5.0, 1.1])  # payoffs
@@ -36,24 +36,24 @@ print(p1)
 
 print(X[0, :])
 
-#NPV OF A PORTFOLIO
+# NPV OF A PORTFOLIO
 
-#Depreciation of production rates
+# Depreciation of production rates
 
 gamma_A = 0.8
 gamma_B = 0.9
 
-#Interest rate discounting
+# Interest rate discounting
 
 r = 0.05
 
-discount = np.array([(1 / (1+r)) ** t for t in range(20)])
+discount = np.array([(1 / (1 + r)) ** t for t in range(20)])
 print(discount)
 
-#Create arrays with production of each oilfield
+# Create arrays with production of each oilfield
 
-oil_A = 5 * np.array([gamma_A**t for t in range(20)])
-oil_B = 2 * np.array([gamma_B**t for t in range(20)])
+oil_A = 5 * np.array([gamma_A ** t for t in range(20)])
+oil_B = 2 * np.array([gamma_B ** t for t in range(20)])
 
 oil_fields = np.array([oil_A, oil_B])
 print(oil_fields)
@@ -68,9 +68,9 @@ print(Vs)
 print(f"The value of oilfields is {Vs.sum()}")
 
 
-#NPV for a portfolio with infinite lifetime
+# NPV for a portfolio with infinite lifetime
 
-#How different is this infinite horizon approximation from the T = 20
+# How different is this infinite horizon approximation from the T = 20
 
 # Depreciation of production rates
 gamma_A = 0.80
@@ -81,22 +81,36 @@ r = 0.05
 
 
 def infhor_NPV_oilfield(stating_output, gamma, r):
-    beta = gamma / (1+r)
+    beta = gamma / (1 + r)
     return stating_output / (1 - beta)
 
 
 def compute_NPV_oilfield(starting_output, gamma, r, T):
-    outputs = starting_output * np.array([gamma**t for t in range(T)])
-    discount = np.array([(1 / (1+r))**t for t in range(T)])
+    outputs = starting_output * np.array([gamma ** t for t in range(T)])
+    discount = np.array([(1 / (1 + r)) ** t for t in range(T)])
     npv = np.dot(outputs, discount)
     return npv
+
 
 Ts = np.arange(2, 75)
 NPVs_A = np.array([compute_NPV_oilfield(5, gamma_A, r, t) for t in Ts])
 NPVs_B = np.array([compute_NPV_oilfield(2, gamma_B, r, t) for t in Ts])
 
 NPVs_T = NPVs_A + NPVs_B
-NPV_oo = infhor_NPV_oilfield(
-    5, gamma_A, r) + infhor_NPV_oilfield(2, gamma_B, r)
+NPV_oo = infhor_NPV_oilfield(5, gamma_A, r) + infhor_NPV_oilfield(2, gamma_B, r)
 print(NPV_oo)
 
+# the graph of the infinite horizon NPV
+
+fig, ax = plt.subplots()
+ax.set_title("NPV with varying T")
+ax.set_ylabel("NPV")
+
+ax.plot(Ts, NPVs_A + NPVs_B)
+ax.hlines(NPV_oo, Ts[0], Ts[-1], color="k", linestyle="--")
+# Plot infinite horizon value
+
+ax.spines["right"].set_visible(False)
+ax.spines["top"].set_visible(False)
+
+plt.show()
