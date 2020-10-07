@@ -51,3 +51,28 @@ ax[2].hist(draws_10000)
 fig.tight_layout()
 
 plt.show()
+
+# Discrete distribution
+
+
+def simulate_loan_repayments_slow(
+    N, r=0.05, repayment_full=25000, repayment_part=12500
+):
+    repayment_sims = np.zeros(N)
+    for i in range(N):
+        x = np.random.rand()  # Draw a random number
+
+        # Fu;ll repayment 75% of time
+
+        if x < 0.75:
+            repaid = repayment_full
+        elif x < 0.95:
+            repaid = repayment_part
+        else:
+            repaid = 0.0
+
+        repayment_sims[i] = (1 / (1 + r)) * repaid
+    return repayment_sims
+
+
+print(np.mean(simulate_loan_repayments_slow(25000)))
