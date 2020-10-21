@@ -50,7 +50,7 @@ ax[2].hist(draws_10000)
 
 fig.tight_layout()
 
-plt.show()
+# plt.show()
 
 # Discrete distribution
 
@@ -76,3 +76,32 @@ def simulate_loan_repayments_slow(
 
 
 print(np.mean(simulate_loan_repayments_slow(25000)))
+
+
+# A faster alternative using numpy array
+
+
+def simulate_loan_repayments(N, r=0.05, repayment_full=25000, repayment_part=12500):
+    """Simulate present value of N loans given values for discount rate and
+    repayment values
+    """
+    random_numbers = np.random.rand(N)
+
+    # start as 0 -- no repayment
+
+    repayment_sims = np.zeros(N)
+
+    # adjust for full and partial repayment
+
+    partial = random_numbers <= 0.20
+    repayment_sims[partial] = repayment_part
+
+    full = ~partial & (random_numbers <= 0.95)
+    repayment_sims[full] = repayment_full
+
+    repayment_sims = (1 / (1 + r)) * repayment_sims
+
+    return repayment_sims
+
+
+print(np.mean(simulate_loan_repayments(25000)))
