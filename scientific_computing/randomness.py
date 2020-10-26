@@ -112,3 +112,26 @@ print(np.mean(simulate_loan_repayments(25000)))
 
 print(timeit.timeit(f"{np.mean(simulate_loan_repayments_slow(25000))}"))
 print(timeit.timeit(f"{np.mean(simulate_loan_repayments(25000))}"))
+
+
+# Profitability threshold
+
+# Finding the largest loan size that ensures we get 95% probability of profitability
+# in a year we make 250 loans
+
+
+def simulate_year_of_loans(N=250, K=1000):
+    # Create an array to store the values
+    avg_repayments = np.zeros(K)
+
+    for year in range(K):
+        repaid_year = 0.0
+        n_loans = simulate_loan_repayments(N)
+        avg_repayments[year] = n_loans.mean()
+
+    return avg_repayments
+
+
+loan_repayment_outcomes = simulate_year_of_loans(N=250)
+lro_5 = np.percentile(loan_repayment_outcomes, 5)
+print(lro_5)
