@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import timeit
 
 # activate plot theme
 import qeds
@@ -105,3 +106,9 @@ def simulate_loan_repayments(N, r=0.05, repayment_full=25000, repayment_part=125
 
 
 print(np.mean(simulate_loan_repayments(25000)))
+
+# print(timeit.timeit(lambda: np.mean(simulate_loan_repayments_slow(25000))))
+# print(timeit.timeit(lambda: np.mean(simulate_loan_repayments(25000))))
+
+print(timeit.timeit(f"{np.mean(simulate_loan_repayments_slow(25000))}"))
+print(timeit.timeit(f"{np.mean(simulate_loan_repayments(25000))}"))
