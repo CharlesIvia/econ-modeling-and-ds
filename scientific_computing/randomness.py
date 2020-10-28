@@ -135,3 +135,47 @@ def simulate_year_of_loans(N=250, K=1000):
 loan_repayment_outcomes = simulate_year_of_loans(N=250)
 lro_5 = np.percentile(loan_repayment_outcomes, 5)
 print(lro_5)
+
+# Markov chain in simulating loan repayment status
+
+
+def simulate_loan_lifetime(monthly_payment):
+
+    # Create arrays to store outputs
+    payments = np.zeros(12)
+    # Note: dtype 'U12' means a string with no more than 12 characters
+    statuses = np.array(
+        4 * ["repaying", "delinquency", "default"], dtype="U12")
+
+    # Everyone is repaying during their first month
+    payments[0] = monthly_payment
+    statuses[0] = "repaying"
+
+    for month in range(1, 12):
+        rn = np.random.rand()
+
+        if statuses[month - 1] == "repaying":
+            if rn < 0.85:
+                payments[month] = monthly_payment
+                statuses[month] = "repaying"
+            elif rn < 0.95:
+                payments[month] = 0.0
+                statuses[month] = "delinquency"
+            else:
+                payments[month] = 0.0
+                statuses[month] = "default"
+        elif statuses[month - 1] == "delinquency":
+            if rn < 0.25:
+                payments[month] = monthly_payment
+                statuses[month] = "repaying"
+            elif rn < 0.85:
+                payments[month] = 0.0
+                statuses[month] = "delinquency"
+            else:
+                payments[month] = 0.0
+                statuses[month] = "default"
+        else:  # Default -- Stays in default after it gets there
+            payments[month] = 0.0
+            statuses[month] = "default"
+
+    return payments, statuses
