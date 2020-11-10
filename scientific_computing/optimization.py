@@ -44,4 +44,18 @@ print("The negative minimum is: \n", neg_min)
 print("The positive minimum is: \n", pos_min)
 
 
+# Optimization in consumer theory
+
+
+def U(A, B, alpha=1 / 3):
+    return B ** alpha * A ** (1 - alpha)
+
+
+fig, ax = plt.subplots()
+B = 1.5
+A = np.linspace(1, 10, 100)
+ax.plot(A, U(A, B))
+ax.set_xlabel("A")
+ax.set_ylabel("B")
+
 plt.show()
