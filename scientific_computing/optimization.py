@@ -1,3 +1,4 @@
+from matplotlib.pyplot import contour
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.core.fromnumeric import ptp
@@ -57,5 +58,18 @@ A = np.linspace(1, 10, 100)
 ax.plot(A, U(A, B))
 ax.set_xlabel("A")
 ax.set_ylabel("B")
+
+
+# change in utility with different bundles
+
+fig, ax = plt.subplots()
+B = np.linspace(1, 20, 100).reshape((100, 1))
+print(B.flatten())
+contours = ax.contourf(A, B.flatten(), U(A, B))
+fig.colorbar(contours)
+
+ax.set_xlabel("A")
+ax.set_ylabel("B")
+ax.set_title("U(A,B)")
 
 plt.show()
