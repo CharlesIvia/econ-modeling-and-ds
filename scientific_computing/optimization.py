@@ -72,4 +72,22 @@ ax.set_xlabel("A")
 ax.set_ylabel("B")
 ax.set_title("U(A,B)")
 
+# consumer indifference
+
+
+def A_indifference(B, ubar, alpha=1 / 3):
+    return ubar ** (1 / (1 - alpha)) * B ** (-alpha / (1 - alpha))
+
+
+def plot_indifference_curves(ax, alpha=1 / 3):
+    ubar = np.arange(1, 11, 2)
+    ax.plot(B, A_indifference(B, ubar, alpha))
+    ax.legend([r"$\bar{U}$" + " = {}".format(i) for i in ubar])
+    ax.set_xlabel("B")
+    ax.set_ylabel(r"$A(B, \bar{U}$)")
+
+
+fig, ax = plt.subplots()
+plot_indifference_curves(ax)
+
 plt.show()
