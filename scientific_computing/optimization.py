@@ -90,4 +90,26 @@ def plot_indifference_curves(ax, alpha=1 / 3):
 fig, ax = plt.subplots()
 plot_indifference_curves(ax)
 
+
+# Consumer budget constraint
+
+
+def A_bc(B, W=20, pa=2):
+    """Given B, W and pa return the max amount of A a consumer can affors"""
+    return (W - B) / pa
+
+
+def plot_budget_constraint(ax, W=20, pa=2):
+    B_bc = np.array([0, W])
+    A = A_bc(B_bc, W, pa)
+    ax.plot(B_bc, A)
+    ax.fill_between(B_bc, 0, A, alpha=0.2)
+    ax.set_xlabel("B")
+    ax.set_ylabel("A")
+    return ax
+
+
+fig, ax = plt.subplots()
+plot_budget_constraint(ax, 20, 2)
+
 plt.show()
