@@ -112,4 +112,11 @@ def plot_budget_constraint(ax, W=20, pa=2):
 fig, ax = plt.subplots()
 plot_budget_constraint(ax, 20, 2)
 
+
+#Optimal choice
+
+fig, ax = plt.subplots()
+plot_indifference_curves(ax)
+plot_budget_constraint(ax)
+
 plt.show()
