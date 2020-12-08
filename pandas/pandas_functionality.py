@@ -90,3 +90,59 @@ print(unemp.agg(high_or_low))
 # agg can take multiple fns at once
 
 print(unemp.agg([min, max, high_or_low]))
+
+# Transforms - many analytical operations do not necessarily involve an aggregation
+
+# Built in Transforms
+
+print(unemp.head())
+
+print(unemp.pct_change().head())
+print(unemp.diff().head())
+
+# Transforms are either series transforms or scalar transforms
+
+# Custom series transforms
+
+##Steps
+# Write a Python function that takes a Series and outputs a new Series.
+# Pass our new function as an argument to the apply method
+# (alternatively,the transform method).
+
+# Standardize unemployment data
+
+#
+# Step 1: We write the Series transform function that we'd like to use
+#
+
+
+def standardize_data(x):
+    """
+    Changes the data in a Series to become mean 0 with standard deviation 1
+    """
+    mu = x.mean()
+    std = x.std()
+
+    return (x - mu) / std
+
+
+#
+# Step 2: Apply our function via the apply method.
+#
+std_unemp = unemp.apply(standardize_data)
+print(std_unemp.head())
+
+# Takes the absolute value of all elements of a function
+abs_std_unemp = std_unemp.abs()
+
+print(abs_std_unemp.head())
+
+# find the date when unemployment was "most different from normal" for each State
+
+
+def idxmax(x):
+    # idxmax of Series will return index of maximal value
+    return x.idxmax()
+
+
+print(abs_std_unemp.agg(idxmax))
