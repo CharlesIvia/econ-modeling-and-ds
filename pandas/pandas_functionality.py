@@ -32,4 +32,17 @@ unemp = unemp_all[states]
 print(unemp.head())
 
 unemp.plot()
-plt.show()
+
+# Dates in pandas
+
+print(unemp.index)
+
+# Data corresponding to a single date
+
+print(unemp.loc["01/01/2000", :])
+
+# Data for all days between New Years Day and June first in the year 2000
+
+print(unemp.loc["01/01/2000":"06/01/2000", :])
+
+# DataFrame Aggregations
