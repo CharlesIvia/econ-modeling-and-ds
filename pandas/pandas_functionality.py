@@ -146,3 +146,76 @@ def idxmax(x):
 
 
 print(abs_std_unemp.agg(idxmax))
+
+# Boolean selection
+
+unemp_small = unemp.head()
+print(unemp_small)
+
+# Using a list of booleans to select
+
+print(unemp_small.loc[[True, True, True, False, False]])
+
+# Add a second argument to select column, ":" means all
+
+print(unemp_small.loc[[True, False, True, False, True], :])
+
+# Add booleans to select both rows and columns
+print(
+    unemp_small.loc[
+        [True, True, True, False, False], [True, False, False, False, False, True, True]
+    ]
+)
+
+# Creating boolean dataframes/series
+
+unemp_texas = unemp_small["Texas"] < 4.5
+print(unemp_texas)
+
+# extract subset of rows from a df
+
+print(unemp_small.loc[unemp_texas])
+
+unemp_ny_vs_texas = unemp_small["New York"] > unemp_small["Texas"]
+print(unemp_ny_vs_texas)
+
+print(unemp_small.loc[unemp_ny_vs_texas])
+
+# multiple conditions
+
+# (bool_series1) & (bool_series2)
+# (bool_series1) | (bool_series2)
+
+small_NYTX = (unemp_small["Texas"] < 4.7) & (unemp_small["New York"] < 4.7)
+print(small_NYTX)
+print(unemp_small[small_NYTX])
+
+# isin() instead of |
+
+print(unemp_small["Michigan"].isin([3.3, 3.2]))
+
+# select full rows where this Series is True
+print(unemp_small.loc[unemp_small["Michigan"].isin([3.3, 3.2])])
+
+
+# .any() and  .all()
+# any returns True whenever at least one of the inputs are True
+# while all is True only when all the inputs are True.
+
+# Want: Count the number of months in which all states in our sample had unemployment above 6.5%
+
+# construct the DataFrame of bools
+high = unemp > 6.5
+print(high.head())
+
+# use the .all method on axis=1 to get the dates where all states have a True
+all_high = high.all(axis=1)
+print(all_high.head())
+
+print(all_high.sum())
+
+# Call .sum to add up the number of True values in `all_high`
+# (note that True == 1 and False == 0 in Python, so .sum will count Trues)
+
+msg = "Out of {} months, {} had high unemployment accros all states"
+print(msg.format(len(all_high), all_high.sum()))
