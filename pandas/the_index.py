@@ -86,3 +86,12 @@ print(wdiT)
 print(wdiT.loc[:, "United States"])
 print(wdiT.loc[:, ["United States", "Canada"]])
 print(wdiT.loc[:, (["United States", "Canada"], 2010)])
+
+# Re-setting the Index
+
+wdi = wdi.reset_index()
+print(wdi)
+
+##Notes
+# Each column should each have one variable
+# Each row should each have one observation
