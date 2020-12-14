@@ -73,3 +73,16 @@ print(wdi.loc[("United States", 2010)])
 print(wdi.loc[["United States", "Canada"]])
 print(wdi.loc[(["United States", "Canada"], [2010, 2011]), :])
 print(wdi.loc[[("United States", 2010), ("Canada", 2011)], :])
+
+# pd.IndexSlice
+
+print(wdi.loc[pd.IndexSlice[:, [2005, 2007, 2009]], :])
+
+# Multi-index columns
+
+wdiT = wdi.T
+print(wdiT)
+
+print(wdiT.loc[:, "United States"])
+print(wdiT.loc[:, ["United States", "Canada"]])
+print(wdiT.loc[:, (["United States", "Canada"], 2010)])
