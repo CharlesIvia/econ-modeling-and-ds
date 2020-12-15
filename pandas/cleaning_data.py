@@ -1,4 +1,5 @@
 from numpy.core.fromnumeric import choose
+from numpy.lib.function_base import average
 import pandas as pd
 import numpy as np
 from pandas.core.tools import numeric
@@ -90,28 +91,40 @@ print(df.fillna(method="bfill"))
 # use the _previous_ valid observation to fill missing data
 print(df.fillna(method="ffill"))
 
-#Case Study: a dataset of 2000 Chipotle orders
+# Case Study: a dataset of 2000 Chipotle orders
 
 chiptole = qeds.data.load("chipotle_raw")
 print(chiptole.head())
 
-#What is the average price of an item with chicken?
+# Want: Find out what is the average price of an item with chicken?
 
 chiptole_price = chiptole["item_price"].str.replace("$", " ")
 chiptole["numeric_price"] = pd.to_numeric(chiptole_price)
 
 print(chiptole.head())
 
-chiptole["chicken_dish"] = chiptole["item_name"].str.contains(
-    "Chicken" or "chicken")
+chiptole["chicken_dish"] = chiptole["item_name"].str.contains("Chicken" or "chicken")
 print(chiptole.head(10))
 
-contains_chicken = (chiptole["chicken_dish"] == True)
+contains_chicken = chiptole["chicken_dish"] == True
 chicken_df = chiptole.loc[contains_chicken]
 print(chicken_df)
 
 average_chicken_dish_price = chicken_df["numeric_price"].mean()
 print(average_chicken_dish_price)
 
-#The average price of an item with chicken is $10.13
+# The average price of an item with chicken is $10.13
 
+# Want: Find out what is the average price of an item with steak?
+
+chiptole["steak_dish"] = chiptole["item_name"].str.contains("Steak" or "steak")
+print(chiptole.head(10))
+
+contains_steak = chiptole["steak_dish"] == True
+steak_df = chiptole.loc[contains_steak]
+print(steak_df)
+
+average_steak_dish_price = steak_df["numeric_price"].mean()
+print(average_steak_dish_price)
+
+# The average price of an item with steak at is $10.52
