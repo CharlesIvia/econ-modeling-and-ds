@@ -41,3 +41,17 @@ print(df)
 
 print(df["colors"].str.contains("p"))
 print(df["colors"].str.capitalize())
+
+# TYPE CONVERSIONS
+
+print(df["numbers_str"].dtype)
+
+# convert to numbers using pd.to_numeric
+
+df["numbers_numeric"] = pd.to_numeric(df["numbers_str"])
+print(df["numbers_numeric"].dtype)
+
+# using astype() we can convert to any supported stype
+
+df["numbers_numeric"].astype(str)
+df["numbers_numeric"].astype(float)
