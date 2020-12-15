@@ -147,3 +147,36 @@ print(bball.pivot_table(index="Year", columns="Player", values="Pts", aggfunc=le
 print(
     bball.pivot_table(index="Year", columns="Player", values="Pts", aggfunc=[max, len])
 )
+
+# VISUALIZING RESHAPING
+
+# made up
+# columns A and B are "identifiers" while C, D, and E are variables.
+df = pd.DataFrame(
+    {
+        "A": [0, 0, 1, 1],
+        "B": "x y x z".split(),
+        "C": [1, 2, 1, 4],
+        "D": [
+            10,
+            20,
+            30,
+            20,
+        ],
+        "E": [
+            2,
+            1,
+            5,
+            4,
+        ],
+    }
+)
+
+print(df.info())
+print(df)
+
+df2 = df.set_index(["A", "B"])
+print(df2)
+
+df3 = df2.T
+print(df3.head())
