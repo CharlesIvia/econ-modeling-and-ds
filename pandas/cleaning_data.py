@@ -128,3 +128,10 @@ average_steak_dish_price = steak_df["numeric_price"].mean()
 print(average_steak_dish_price)
 
 # The average price of an item with steak at is $10.52
+
+##Want: Find out which items produced more revenue between steak and chicken
+
+print(
+    "Chicken dishes produced ${} in revenue.".format(chicken_df["numeric_price"].sum())
+)
+print("Steak dishes produced ${} in revenue.".format(steak_df["numeric_price"].sum()))
