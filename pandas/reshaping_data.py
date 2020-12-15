@@ -93,3 +93,15 @@ plt.show()
 # and place it in the column labels closest to the data.
 
 # Pro tip: We remember stack vs unstack with a mnemonic: Unstack moves index levels Up
+
+# MELT
+
+# used to move from wide to long
+
+# Warning: When you use melt, any index that you currently have will be deleted.
+
+print(bball.melt(id_vars=["Year", "Player", "Team", "TeamName"]))
+
+# the columns we specified as id_vars remained columns, but all other columns were put into two new columns:
+# variable: This has dtype string and contains the former column names. as values
+# value: This has the former values.
