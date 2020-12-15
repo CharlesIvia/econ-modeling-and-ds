@@ -85,7 +85,7 @@ print(player_stats.unstack(level="Player"))
 player_stats.unstack(level="Player").plot.bar()
 
 plt.tight_layout()
-plt.show()
+# plt.show()
 
 # It is the inverse of stack; stack will move labels down from columns to index,
 # while unstack moves them up from index to columns.
@@ -105,3 +105,45 @@ print(bball.melt(id_vars=["Year", "Player", "Team", "TeamName"]))
 # the columns we specified as id_vars remained columns, but all other columns were put into two new columns:
 # variable: This has dtype string and contains the former column names. as values
 # value: This has the former values.
+
+
+# PIVOT AND PIVOT_ABLE
+
+# pivot
+
+print(bball)
+
+print(bball.head(6).pivot(index="Year", columns="Player", values="Pts"))
+
+# can replicate above pivot as below
+
+print(bball.head(6).set_index(["Year", "Player"])["Pts"].unstack(level="Player"))
+
+# Note: in order for pivot to work, the index/column pairs must be unique!
+
+# pivot_table
+
+print(bball.pivot_table(index=["Year", "Team"], columns="Player", values="Pts"))
+
+print(bball.pivot_table(index="Year", columns=["Player", "Team"], values="Pts"))
+
+bball_pivoted = bball.pivot_table(index="Year", columns="Player", values="Pts")
+print(bball_pivoted)
+
+# pivot_table handles duplicate index/column pairs using an aggregation.
+# default = mean
+
+# We can choose how pandas aggregates all of the values.
+
+# Using max
+print(bball.pivot_table(index="Year", columns="Player", values="Pts", aggfunc=max))
+
+# Count no of values
+
+print(bball.pivot_table(index="Year", columns="Player", values="Pts", aggfunc=len))
+
+# multiple aggregation functions
+
+print(
+    bball.pivot_table(index="Year", columns="Player", values="Pts", aggfunc=[max, len])
+)
