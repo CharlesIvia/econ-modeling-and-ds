@@ -55,3 +55,35 @@ print(df["numbers_numeric"].dtype)
 
 df["numbers_numeric"].astype(str)
 df["numbers_numeric"].astype(float)
+
+# MISSING DATA
+
+print(df)
+
+# find missing data using isnull method
+
+print(df.isnull())
+
+# We might want to know whether particular rows or columns have any missing data.
+
+# To do this we can use the .any method on the boolean DataFrame df.isnull().
+
+print(df.isnull().any(axis=0))
+print(df.isnull().any(axis=1))
+
+# Approaches to missing data
+
+# 1. Exclusion: Ignore any data that is missing (.dropna)
+# 2. Imputation: Compute “predicted” values for the data that is missing (.fillna)
+
+# drop all rows containing a missing observation
+print(df.dropna())
+
+# fill the missing values with a specific value
+print(df.fillna(value=100))
+
+# use the _next_ valid observation to fill the missing data
+print(df.fillna(method="bfill"))
+
+# use the _previous_ valid observation to fill missing data
+print(df.fillna(method="ffill"))
