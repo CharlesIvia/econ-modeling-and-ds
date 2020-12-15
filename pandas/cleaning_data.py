@@ -1,5 +1,7 @@
+from numpy.core.fromnumeric import choose
 import pandas as pd
 import numpy as np
+from pandas.core.tools import numeric
 import qeds
 
 df = pd.DataFrame(
@@ -87,3 +89,29 @@ print(df.fillna(method="bfill"))
 
 # use the _previous_ valid observation to fill missing data
 print(df.fillna(method="ffill"))
+
+#Case Study: a dataset of 2000 Chipotle orders
+
+chiptole = qeds.data.load("chipotle_raw")
+print(chiptole.head())
+
+#What is the average price of an item with chicken?
+
+chiptole_price = chiptole["item_price"].str.replace("$", " ")
+chiptole["numeric_price"] = pd.to_numeric(chiptole_price)
+
+print(chiptole.head())
+
+chiptole["chicken_dish"] = chiptole["item_name"].str.contains(
+    "Chicken" or "chicken")
+print(chiptole.head(10))
+
+contains_chicken = (chiptole["chicken_dish"] == True)
+chicken_df = chiptole.loc[contains_chicken]
+print(chicken_df)
+
+average_chicken_dish_price = chicken_df["numeric_price"].mean()
+print(average_chicken_dish_price)
+
+#The average price of an item with chicken is $10.13
+
