@@ -135,3 +135,9 @@ print(
     "Chicken dishes produced ${} in revenue.".format(chicken_df["numeric_price"].sum())
 )
 print("Steak dishes produced ${} in revenue.".format(steak_df["numeric_price"].sum()))
+
+
+##Want: Determine number of missing items in the dataset and in columns
+
+print(chiptole.isnull().value_counts())
+print(chiptole.isnull().sum())
