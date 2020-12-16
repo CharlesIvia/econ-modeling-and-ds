@@ -75,3 +75,27 @@ print(pd.concat([wdi2017, sq_miles], axis=1))
 
 temp = pd.concat([wdi2017, sq_miles], axis=1)
 print(temp["Consumption"] / temp["sq_miles"])
+
+
+# pd.merge
+
+# pd.merge operates on two DataFrames at a time and is primarily used to bring
+# columns from one DataFrame into another, aligning data based on one or more “key” columns
+
+
+print(pd.merge(wdi2017, sq_miles, on="country"))
+
+print(pd.merge(wdi2016_17, sq_miles, on="country"))
+
+print(pd.merge(wdi2016_17.reset_index(), sq_miles, on="country"))
+
+# Multiple columns
+
+print(pd.merge(wdi2016_17, pop, on=["country", "year"]))
+
+# Want: Determine capita income and consumption per person for each country and year
+
+wdi_pop = wdi_pop = pd.merge(wdi2016_17, pop, on=["country", "year"])
+
+print(wdi_pop["GDP"] / wdi_pop["Population"])
+print(wdi_pop["Consumption"] / wdi_pop["Population"])
