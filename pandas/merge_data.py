@@ -99,3 +99,42 @@ wdi_pop = wdi_pop = pd.merge(wdi2016_17, pop, on=["country", "year"])
 
 print(wdi_pop["GDP"] / wdi_pop["Population"])
 print(wdi_pop["Consumption"] / wdi_pop["Population"])
+
+# Optional arguments for merge include - on, left_on, right_on
+
+# left_on and right_on are useful when DFs have same name for a particular column
+
+# left_index and right_index
+
+# how
+
+wdi2017_no_US = wdi2017.drop("United States")
+print(wdi2017_no_US)
+
+sq_miles_no_germany = sq_miles.drop("Germany")
+print(sq_miles_no_germany)
+
+# default
+print(pd.merge(wdi2017, sq_miles, on="country", how="left"))
+
+# notice ``Russia`` is included
+print(pd.merge(wdi2017, sq_miles, on="country", how="right"))
+
+# notice no United States or Russia
+print(pd.merge(wdi2017_no_US, sq_miles, on="country", how="inner"))
+
+# includes all 5, even though they don't all appear in either DataFrame
+print(pd.merge(wdi2017_no_US, sq_miles_no_germany, on="country", how="outer"))
+
+# df.merge(df2)
+# Note that the DataFrame type has a merge method.
+
+# It is the same as the function we have been working with, but passes the DataFrame before the period as left.
+
+# Thus df.merge(other) is equivalent to pd.merge(df, other).
+
+print(wdi2017.merge(sq_miles, on="country", how="right"))
+
+# df.join
+# The join method for a DataFrame is very similar to the merge method described above, but
+# only allows you to use the index of the right DataFrame as the join key.
