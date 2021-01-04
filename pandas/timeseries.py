@@ -5,8 +5,7 @@ import quandl
 import qeds
 
 # API key
-quandl.ApiConfig.api_key = os.environ.get(
-    "QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
+quandl.ApiConfig.api_key = os.environ.get("QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
 start_date = "2014-05-01"
 
 qeds.themes.mpl_style()
@@ -51,6 +50,32 @@ print(christmas_amzn)
 print(pd.to_datetime(["2017-12-25", "2017-12-31"]))
 
 
-#Date formatting
+# Date formatting
 
 print(christmas.strftime("We love %A %B %d (also written  %c)"))
+
+# Extraxting data
+
+btc_usd = quandl.get("BCHARTS/BITSTAMPUSD", start_date=start_date)
+print(btc_usd.info())
+print(btc_usd.head())
+
+# Extract all 2015 data
+
+print(btc_usd.loc["2015"])
+
+# Narrrow down to specific month
+
+print(btc_usd.loc["August 2017"])
+
+# Narrow down to specific date name
+
+print(btc_usd.loc["August 1, 2017"])
+
+# By date number
+
+print(btc_usd.loc["08-01-2017"])
+
+# Extract using range shorthand
+
+print(btc_usd.loc["April 1, 2015":"April 10, 2015"])
