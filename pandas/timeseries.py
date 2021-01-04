@@ -5,7 +5,8 @@ import quandl
 import qeds
 
 # API key
-quandl.ApiConfig.api_key = os.environ.get("QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
+quandl.ApiConfig.api_key = os.environ.get(
+    "QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
 start_date = "2014-05-01"
 
 qeds.themes.mpl_style()
@@ -48,3 +49,8 @@ print(christmas_amzn)
 # multiple dates
 
 print(pd.to_datetime(["2017-12-25", "2017-12-31"]))
+
+
+#Date formatting
+
+print(christmas.strftime("We love %A %B %d (also written  %c)"))
