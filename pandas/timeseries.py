@@ -79,3 +79,19 @@ print(btc_usd.loc["08-01-2017"])
 # Extract using range shorthand
 
 print(btc_usd.loc["April 1, 2015":"April 10, 2015"])
+
+# Accessing Date Properties
+
+# df.index.XX where XX is replaced by year or month e.t.c
+
+print(btc_usd.index.year)
+print(btc_usd.index.day)
+
+# When datetime information is stored in a column
+
+# df["column_name"].dt.XX
+
+btc_date_column = btc_usd.reset_index()
+print(btc_date_column.head())
+
+print(btc_date_column["Date"].dt.year.head())
