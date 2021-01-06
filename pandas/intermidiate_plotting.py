@@ -54,3 +54,28 @@ print(announcement_dates)
 aapl = quandl.get("WIKI/AAPL", start_date="2006-12-25")
 
 print(aapl.head())
+
+# Create subplots
+
+fig1, ax1 = plt.subplots()
+fig2, ax2 = plt.subplots()
+
+# plot the Adjusted open to account for stock split
+
+ax1.plot(aapl["Adj. Open"])
+
+# get the figure so we can re-display the plot after making changes
+# fig = ax.get_figure()
+
+# Set the title
+ax1.set_title("AAPL Adjusted opening price")
+
+# Other customizations
+ax1.set_ylim(0, 200)
+ax1.set_yticks([0, 50, 100, 150, 200])
+
+# Other plots
+
+ax2.plot(aapl[["Adj. Low", "Adj. High"]])
+
+plt.show()
