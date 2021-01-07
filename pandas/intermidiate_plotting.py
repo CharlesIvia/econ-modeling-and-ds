@@ -123,8 +123,33 @@ print(prices["Model"].head(7))
 
 # Fill NaNs above with Data
 
-
 prices = prices.bfill(limit=3)
 print(prices["Model"].isnull().sum())
 print(prices["Model"].head(7))
+
+# Normalize the share price on each announcement date to 100 and scale neigbors accordingly
+
+
+def scale_by_middle(df):
+    # How many rows
+    N = df.shape[0]
+
+    # Divide by middle row and scale to 100
+    # Note: N // 2 is modulus division meaning that it is
+    #       rounded to nearest whole number)
+    out = (df["Open"] / df.iloc[N // 2]["Open"]) * 100
+
+    # We don't want to keep actual dates, but rather the number
+    # of days before or after the announcment. Let's set that
+    # as the index. Note the +1 because range excludes upper limit
+    out.index = list(range(-(N // 2), N // 2 + 1))
+
+    # also change the name of this series
+    out.name = "DeltaDays"
+    return out
+
+
+to_plot = prices.groupby("Model").apply(scale_by_middle).T
+
+print(to_plot)
 # plt.show()
