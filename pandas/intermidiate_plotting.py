@@ -191,6 +191,48 @@ to_plot.plot(
     fontsize=12,
 )
 
-fig.tight_layout()
+# set background color
 
+fig.set_facecolor(background)
+
+# Properties of an Axes
+
+# For each Axes... do the following
+for i in range(announcement_dates.shape[0]):
+    ax = axs[i]
+
+    # add faint blue line representing impact of original iPhone announcement
+    to_plot["First iPhone"].plot(ax=ax, color=blue, alpha=0.2, linewidth=3)
+
+    # add a title
+    ti = (
+        str(announcement_dates.index[i].year) + "\n" + announcement_dates.iloc[i] + "\n"
+    )
+    ax.set_title(ti)
+
+    # set background color of plotting area
+    ax.set_facecolor(background)
+
+    # remove xlabels
+    ax.set_xlabel("")
+
+    # turn of tick marks
+    ax.tick_params(which="both", left=False, labelbottom=False)
+
+    # make x ticks longer and semi-transparent
+    ax.tick_params(axis="x", length=7.0, color=(0, 0, 0, 0.4))
+
+    # set limits on vertical axis
+    ax.set_ylim((yticks[0], yticks[-1]))
+
+    # add a white circle at 0, 100
+    ax.plot(0, 100, "o", markeredgecolor=blue, markersize=8, color="white", zorder=10)
+
+    # remove border around each subplot
+    for direction in ["top", "right", "left", "bottom"]:
+        ax.spines[direction].set_visible(False)
+
+# add some spacing around subplots
+
+fig.tight_layout()
 plt.show()
