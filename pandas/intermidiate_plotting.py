@@ -11,7 +11,8 @@ from pandas.tseries.offsets import CustomBusinessDay
 
 qeds.themes.mpl_style()
 
-quandl.ApiConfig.api_key = os.environ.get("QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
+quandl.ApiConfig.api_key = os.environ.get(
+    "QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
 
 # WANT: Visualize the impact of iphone announcements on apple share prices
 
@@ -94,7 +95,8 @@ def neigbor_dates(date, nbefore=3, nafter=3):
 
     # Create a list of business days
 
-    before_and_after = [date + i * bday_us for i in range(-nbefore, nafter + 1)]
+    before_and_after = [date + i * bday_us for i in range(-nbefore,
+                                                          nafter + 1)]
     return before_and_after
 
 
@@ -152,4 +154,26 @@ def scale_by_middle(df):
 to_plot = prices.groupby("Model").apply(scale_by_middle).T
 
 print(to_plot)
+
+
+#Constructing the plot
+
+#colors
+
+background = tuple(np.array([253, 238, 222]) / 255)
+blue = tuple(np.array([20, 64, 134]) / 255)
+pink = tuple(np.array([232, 75, 126]) / 255)
+
+
+def get_color(x):
+    if "S" in x:
+        return pink
+    else:
+        return blue
+
+colors = announcement_dates.map(get_color).values
+
+# yticks
+yticks = [90, 95, 100, 105, 110, 115]
+
 # plt.show()
