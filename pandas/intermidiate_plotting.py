@@ -11,8 +11,7 @@ from pandas.tseries.offsets import CustomBusinessDay
 
 qeds.themes.mpl_style()
 
-quandl.ApiConfig.api_key = os.environ.get(
-    "QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
+quandl.ApiConfig.api_key = os.environ.get("QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
 
 # WANT: Visualize the impact of iphone announcements on apple share prices
 
@@ -95,8 +94,7 @@ def neigbor_dates(date, nbefore=3, nafter=3):
 
     # Create a list of business days
 
-    before_and_after = [date + i * bday_us for i in range(-nbefore,
-                                                          nafter + 1)]
+    before_and_after = [date + i * bday_us for i in range(-nbefore, nafter + 1)]
     return before_and_after
 
 
@@ -156,9 +154,9 @@ to_plot = prices.groupby("Model").apply(scale_by_middle).T
 print(to_plot)
 
 
-#Constructing the plot
+# Constructing the plot
 
-#colors
+# colors
 
 background = tuple(np.array([253, 238, 222]) / 255)
 blue = tuple(np.array([20, 64, 134]) / 255)
@@ -171,9 +169,28 @@ def get_color(x):
     else:
         return blue
 
+
 colors = announcement_dates.map(get_color).values
 
 # yticks
 yticks = [90, 95, 100, 105, 110, 115]
 
-# plt.show()
+# construct figure and Axes objects
+fig, axs = plt.subplots(1, 11, sharey=True, figsize=(14, 5))
+
+# We can pass our array of Axes and `subplots=True`
+# because we have one Axes per column
+to_plot.plot(
+    ax=axs,
+    subplots=True,
+    legend=False,
+    yticks=yticks,
+    xticks=[-3, 3],
+    color=colors,
+    linewidth=3,
+    fontsize=12,
+)
+
+fig.tight_layout()
+
+plt.show()
