@@ -59,29 +59,29 @@ print(aapl.head())
 
 # Create subplots
 
-fig1, ax1 = plt.subplots()
-fig2, ax2 = plt.subplots()
-fig3, ax3 = plt.subplots()
+# fig1, ax1 = plt.subplots()
+# fig2, ax2 = plt.subplots()
+# fig3, ax3 = plt.subplots()
 
 # plot the Adjusted open to account for stock split
 # Remember the independent variable goes into y axis and dependent variable into x axis
 
-ax1.plot(aapl["Adj. Open"])
+# ax1.plot(aapl["Adj. Open"])
 
 # get the figure so we can re-display the plot after making changes
 # fig = ax.get_figure()
 
 # Set the title
-ax1.set_title("AAPL Adjusted opening price")
+# ax1.set_title("AAPL Adjusted opening price")
 
 # Other customizations
-ax1.set_ylim(0, 200)
-ax1.set_yticks([0, 50, 100, 150, 200])
+# ax1.set_ylim(0, 200)
+# ax1.set_yticks([0, 50, 100, 150, 200])
 
 # Other plots
 
-ax2.plot(aapl[["Adj. Low", "Adj. High"]])
-ax3.plot(aapl[["Low", "High"]])
+# ax2.plot(aapl[["Adj. Low", "Adj. High"]])
+# ax3.plot(aapl[["Low", "High"]])
 
 # Data Cleaning
 
@@ -188,7 +188,7 @@ to_plot.plot(
     xticks=[-3, 3],
     color=colors,
     linewidth=3,
-    fontsize=12,
+    fontsize=10,
 )
 
 # set background color
@@ -208,7 +208,7 @@ for i in range(announcement_dates.shape[0]):
     ti = (
         str(announcement_dates.index[i].year) + "\n" + announcement_dates.iloc[i] + "\n"
     )
-    ax.set_title(ti)
+    ax.set_title(ti, fontsize=10)
 
     # set background color of plotting area
     ax.set_facecolor(background)
@@ -231,6 +231,20 @@ for i in range(announcement_dates.shape[0]):
     # remove border around each subplot
     for direction in ["top", "right", "left", "bottom"]:
         ax.spines[direction].set_visible(False)
+
+# add tick labels to right of iPhone 8/X announcement
+axs[-1].tick_params(labelright=True, labelsize=12)
+
+# Add tick labels for the x-axis ticks on the 1st and 6th plots.
+
+for ax in axs[[0, 5]]:
+    ax.tick_params(labelbottom=True)
+    ax.set_xticklabels(["3 days\nbefore", "3 days\nafter"])
+
+    # need to make these tick labels centered at tick,
+    # instead of the default of right aligned
+    for label in ax.xaxis.get_ticklabels():
+        label.set_horizontalalignment("center")
 
 # add some spacing around subplots
 
