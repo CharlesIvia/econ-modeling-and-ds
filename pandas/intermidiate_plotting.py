@@ -284,6 +284,49 @@ for y in ([90, 91.5], [93, 100]):
 
     fig.lines.append(l)
 
+# Annotations
+axs[5].annotate(
+    "Tim Cook's first iPhone\nannouncement as Apple's CEO",
+    xy=(0.2, 99.5),
+    xycoords="data",
+    xytext=(-2, 93),
+    annotation_clip=False,
+    horizontalalignment="right",
+    arrowprops={
+        "arrowstyle": "-|>",
+        "connectionstyle": "angle3,angleA=0,angleB=110",
+        "color": "black",
+    },
+    fontsize=8,
+)
+
+for ann in axs[8].texts:
+    ann.remove()
+
+axs[8].annotate(
+    "Hardware upgrade 'S' models\nunderwhelm the market",
+    xy=(-5, 99.5),
+    xycoords="data",
+    xytext=(-12, 92),
+    annotation_clip=False,
+    horizontalalignment="left",
+    arrowprops={"visible": False},
+    fontsize=8,
+    fontweight="semibold",
+    color=pink,
+)
+axs[8].set_zorder(0.05)
+
+axs[0].annotate(
+    "Announced",
+    xy=(0, 99.5),
+    xycoords="data",
+    xytext=(0, 92),
+    annotation_clip=False,
+    horizontalalignment="center",
+    arrowprops={"visible": False},
+    fontsize=8,
+)
 # add some spacing around subplots
 
 fig.tight_layout()
