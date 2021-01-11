@@ -246,6 +246,44 @@ for ax in axs[[0, 5]]:
     for label in ax.xaxis.get_ticklabels():
         label.set_horizontalalignment("center")
 
+# Transforms and Lines
+
+# Create a transform that ...
+trans = transforms.blended_transform_factory(
+    fig.transFigure,  # goes across whole in x direction
+    axs[0].transData,  # goes up with the y data in the first axis
+)
+
+for y in yticks:
+    l = plt.Line2D(
+        # x values found by trial and error
+        [0.04, 0.985],
+        [y, y],
+        transform=trans,
+        color="black",
+        alpha=0.4,
+        linewidth=0.5,
+        zorder=0.1,
+    )
+
+    if y == 100:
+        l.set_linewidth(1.5)
+
+    fig.lines.append(l)
+
+for y in ([90, 91.5], [93, 100]):
+    l = plt.Line2D(
+        [0, 0],
+        y,
+        transform=axs[0].transData,
+        color="black",
+        alpha=0.5,
+        linewidth=1.5,
+        zorder=0.1,
+    )
+
+    fig.lines.append(l)
+
 # add some spacing around subplots
 
 fig.tight_layout()
