@@ -45,4 +45,30 @@ sns.lmplot(
     scatter_kws=dict(s=1.5, alpha=0.35),
 )
 
+# Using sklearn to replicate above figures
+
+# Construct model instance
+
+sqft_lr_model = linear_model.LinearRegression()
+
+# fit the model
+
+sqft_lr_model.fit(X[["sqft_living"]], y)
+
+# Print the coefficients
+
+beta_0 = sqft_lr_model.intercept_
+beta_1 = sqft_lr_model.coef_[0]
+
+print(f"Fit model: log(price) = {beta_0:.4f} + {beta_1:.4f} sqft_living")
+
+# Construct the plot
+
+ax = var_scatter(df)
+
+# ponts for the line
+
+x = np.array([0, df["sqft_living"].max()])
+ax.plot(x, beta_0 + beta_1 * x)
+
 plt.show()
