@@ -71,4 +71,11 @@ ax = var_scatter(df)
 x = np.array([0, df["sqft_living"].max()])
 ax.plot(x, beta_0 + beta_1 * x)
 
+# Predicting the price if a 5000 sqft home
+
+logp_5000 = sqft_lr_model.predict([[5000]])[0]
+
+print(
+    f"The model predicts a 5,000sq. foot home would cost {np.exp(logp_5000):.2f} dollars"
+)
 plt.show()
