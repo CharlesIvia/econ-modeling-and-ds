@@ -3,11 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import qeds
-from sklearn import (
-    linear_model, metrics, neural_network, pipeline, model_selection
-)
+from sklearn import linear_model, metrics, neural_network, pipeline, model_selection
 
-qeds.themes.mpl_style();
+qeds.themes.mpl_style()
 plotly_template = qeds.themes.plotly_template()
 colors = qeds.themes.COLOR_CYCLE
 
@@ -17,7 +15,7 @@ print(df.info())
 
 X = df.drop(["price", "date", "id"], axis=1).copy()
 
-#conver everything to a float
+# conver everything to a float
 
 for col in list(X):
     X[col] = X[col].astype(float)
@@ -35,6 +33,16 @@ def var_scatter(df, ax=None, var="sqft_living"):
 
     return ax
 
+
 var_scatter(df)
+
+# Linear regression
+sns.lmplot(
+    data=df,
+    x="sqft_living",
+    y="log_price",
+    height=5,
+    scatter_kws=dict(s=1.5, alpha=0.35),
+)
 
 plt.show()
