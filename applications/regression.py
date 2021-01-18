@@ -100,4 +100,20 @@ scatter_model(lr_model, X, ax, color=colors[1])
 scatter_model(sqft_lr_model, X[["sqft_living"]], ax, color=colors[2])
 ax.legend(["data", "full model", "sqft model"])
 
-plt.show()
+# Nonlinear Relationships in Linear regression
+
+X2 = X[["sqft_living"]].copy()
+
+X2["pct_sqft_above"] = X["sqft_above"] / X["sqft_living"]
+print(X2)
+
+
+sqft_above_lr_model = linear_model.LinearRegression()
+sqft_above_lr_model.fit(X2, y)
+
+new_mse = metrics.mean_squared_error(y, sqft_above_lr_model.predict(X2))
+old_mse = metrics.mean_squared_error(y, sqft_lr_model.predict(X2[["sqft_living"]]))
+print(
+    f"The mse changed from {old_mse:.4f} to {new_mse:.4f} by including our new feature"
+)
+# plt.show()
