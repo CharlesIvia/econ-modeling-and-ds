@@ -79,8 +79,25 @@ print(
     f"The model predicts a 5,000sq. foot home would cost {np.exp(logp_5000):.2f} dollars"
 )
 
-#fit the linear regression model using all columns in X
+# fit the linear regression model using all columns in X
 
 lr_model = linear_model.LinearRegression()
 lr_model.fit(X, y)
-#plt.show()
+
+# Visualizing impact of extra variables on the lr model
+
+ax = var_scatter(df)
+
+
+def scatter_model(mod, X, ax=None, color=colors[1], x="sqft_living"):
+    if ax is None:
+        _, ax = plt.subplots()
+    ax.scatter(X[x], mod.predict(X), c=color, alpha=0.25, s=1)
+    return ax
+
+
+scatter_model(lr_model, X, ax, color=colors[1])
+scatter_model(sqft_lr_model, X[["sqft_living"]], ax, color=colors[2])
+ax.legend(["data", "full model", "sqft model"])
+
+plt.show()
