@@ -78,4 +78,9 @@ logp_5000 = sqft_lr_model.predict([[5000]])[0]
 print(
     f"The model predicts a 5,000sq. foot home would cost {np.exp(logp_5000):.2f} dollars"
 )
-plt.show()
+
+#fit the linear regression model using all columns in X
+
+lr_model = linear_model.LinearRegression()
+lr_model.fit(X, y)
+#plt.show()
