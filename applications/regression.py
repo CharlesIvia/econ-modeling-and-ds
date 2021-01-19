@@ -92,13 +92,13 @@ ax = var_scatter(df)
 def scatter_model(mod, X, ax=None, color=colors[1], x="sqft_living"):
     if ax is None:
         _, ax = plt.subplots()
-    ax.scatter(X[x], mod.predict(X), c=color, alpha=0.25, s=1)
+    ax.scatter(X[x], mod.predict(X), c=color, alpha=0.5, s=1)
     return ax
 
 
 scatter_model(lr_model, X, ax, color=colors[1])
 scatter_model(sqft_lr_model, X[["sqft_living"]], ax, color=colors[2])
-ax.legend(["data", "full model", "sqft model"])
+ax.legend(["data", "full model", "sqft model"], markerscale=5)
 
 # Nonlinear Relationships in Linear regression
 
@@ -116,4 +116,7 @@ old_mse = metrics.mean_squared_error(y, sqft_lr_model.predict(X2[["sqft_living"]
 print(
     f"The mse changed from {old_mse:.4f} to {new_mse:.4f} by including our new feature"
 )
-# plt.show()
+
+# Lasso regression
+
+plt.show()
