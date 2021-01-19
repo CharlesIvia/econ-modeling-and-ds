@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import qeds
 from sklearn import linear_model, metrics, neural_network, pipeline, model_selection
+from itertools import cycle
 
 qeds.themes.mpl_style()
 plotly_template = qeds.themes.plotly_template()
@@ -128,4 +129,30 @@ lr_coefs = pd.Series(dict(zip(list(X), lr_model.coef_)))
 coefs = pd.DataFrame(dict(lasso=lasso_coefs, linreg=lr_coefs))
 
 print(coefs)
-# plt.show()
+
+# Compute lasso for may alphas (the lasso path)
+
+alphas = np.exp(np.linspace(10, -2, 50))
+alphas, coefs_lasso, _ = linear_model.lasso_path(
+    X, y, alphas=alphas, fit_intercept=True, max_iter=1000
+)
+
+# plotting
+
+fig, ax = plt.subplots(figsize=(15, 11))
+colors = cycle(qeds.themes.COLOR_CYCLE)
+log_alphas = -np.log10(alphas)
+
+for coef_l, c, name in zip(coefs_lasso, colors, list(X)):
+    ax.plot(log_alphas, coef_l, c=c)
+    ax.set_xlabel("-Log(alpha)")
+    ax.set_ylabel("lasso coefficients")
+    ax.set_title("Lasso Path")
+    ax.axis("tight")
+    maxabs = np.max(np.abs(coef_l))
+    i = [idx for idx in range(len(coef_l)) if abs(coef_l[idx]) >= (0.9 * maxabs)][0]
+    xnote = log_alphas[i]
+    ynote = coef_l[i]
+    ax.annotate(name, (xnote, ynote), color=c)
+
+plt.show()
