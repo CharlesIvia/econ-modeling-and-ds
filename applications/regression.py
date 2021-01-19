@@ -119,4 +119,13 @@ print(
 
 # Lasso regression
 
-plt.show()
+lasso_model = linear_model.Lasso()
+lasso_model.fit(X, y)
+
+lasso_coefs = pd.Series(dict(zip(list(X), lasso_model.coef_)))
+lr_coefs = pd.Series(dict(zip(list(X), lr_model.coef_)))
+
+coefs = pd.DataFrame(dict(lasso=lasso_coefs, linreg=lr_coefs))
+
+print(coefs)
+# plt.show()
