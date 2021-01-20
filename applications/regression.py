@@ -202,4 +202,28 @@ print(result_lasso_mod)
 # the regularization but the MSE on the test dataset was much higher.
 # This strongly suggests that the linear regression model was OVERFITTING
 
+alphas = np.exp(np.linspace(10, -5, 100))
+mse = pd.DataFrame(
+    [
+        fit_and_report_mses(
+            linear_model.Lasso(alpha=alpha, max_iter=50000),
+            X_train,
+            X_test,
+            y_train,
+            y_test,
+        )
+        for alpha in alphas
+    ]
+)
+mse["log_alpha"] = -np.log10(alphas)
+fig, ax = plt.subplots(figsize=(10, 6))
+colors = qeds.themes.COLOR_CYCLE
+mse.plot(x="log_alpha", y="mse_test", c=colors[0], ax=ax)
+mse.plot(x="log_alpha", y="mse_train", c=colors[1], ax=ax)
+ax.set_xlabel(r"$-\log(\alpha)$")
+ax.set_ylabel("MSE")
+ax.get_legend().remove()
+ax.annotate("test", (mse.log_alpha[15], mse.mse_test[15]), color=colors[0])
+ax.annotate("train", (mse.log_alpha[30], mse.mse_train[30]), color=colors[1])
+
 plt.show()
