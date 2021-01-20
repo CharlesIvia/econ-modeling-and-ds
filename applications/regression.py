@@ -5,6 +5,7 @@ import seaborn as sns
 import qeds
 from sklearn import linear_model, metrics, neural_network, pipeline, model_selection
 from itertools import cycle
+from sklearn.model_selection import cross_val_score
 
 qeds.themes.mpl_style()
 plotly_template = qeds.themes.plotly_template()
@@ -225,5 +226,38 @@ ax.set_ylabel("MSE")
 ax.get_legend().remove()
 ax.annotate("test", (mse.log_alpha[15], mse.mse_test[15]), color=colors[0])
 ax.annotate("train", (mse.log_alpha[30], mse.mse_train[30]), color=colors[1])
+
+# Crosss-validation of Regularization Parameter
+
+# Partition the dataset randomly into k subsets/”folds”
+# Compute  𝑀𝑆𝐸𝑗(𝛼)=  mean squared error in j-th subset when using the j-th subset as test data, and other k-1 as training data
+# Minimize average (across folds) MSE  min𝛼 1/𝑘 ∑𝑘 𝑗=1 𝑀𝑆𝐸𝑗(𝛼)
+
+mse["cv"] = [
+    -np.mean(
+        cross_val_score(
+            linear_model.Lasso(alpha=alpha, max_iter=50000),
+            X_train,
+            y_train,
+            cv=5,
+            scoring="neg_mean_squared_error",
+        )
+    )
+    for alpha in alphas
+]
+
+print(mse)
+
+mse.plot(x="log_alpha", y="cv", c=colors[2], ax=ax)
+ax.annotate("5 fold cross-validation", (mse.log_alpha[40], mse.cv[40]), color=colors[2])
+ax.get_legend().remove()
+ax.set_xlabel(r"$-\log(\alpha)$")
+ax.set_ylabel("MSE")
+
+# LassoCV exploits special structure of lasso problem to minimize CV more efficiently
+lasso = linear_model.LassoCV(cv=5).fit(X_train, y_train)
+print(
+    -np.log10(lasso.alpha_)
+)  # should roughly = minimizer on graph, not exactly equal due to random splitting
 
 plt.show()
