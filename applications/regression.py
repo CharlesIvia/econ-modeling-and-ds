@@ -155,4 +155,51 @@ for coef_l, c, name in zip(coefs_lasso, colors, list(X)):
     ynote = coef_l[i]
     ax.annotate(name, (xnote, ynote), color=c)
 
+
+# Overfitting and Regularization
+
+# Split the data set into training and testing subsets.
+# We will use the first 50 observations for training and the rest for testing.
+# Fit the linear regression model and report MSE on training and testing datasets.
+# Fit the lasso model and report the same statistics.
+
+
+def fit_and_report_mses(mod, X_train, X_test, y_train, y_test):
+    mod.fit(X_train, y_train)
+    return dict(
+        mse_train=metrics.mean_squared_error(y_train, mod.predict(X_train)),
+        mse_test=metrics.mean_squared_error(y_test, mod.predict(X_test)),
+    )
+
+
+n_test = 50
+
+X_train = X.iloc[:n_test, :]
+print(X_train)
+
+X_test = X.iloc[n_test:, :]
+print(X_test)
+
+y_train = y.iloc[:n_test]
+print(y_train)
+
+y_test = y.iloc[n_test:]
+print(y_test)
+
+result_lnr_mod = fit_and_report_mses(
+    linear_model.LinearRegression(), X_train, X_test, y_train, y_test
+)
+
+print(result_lnr_mod)
+
+result_lasso_mod = fit_and_report_mses(
+    linear_model.Lasso(), X_train, X_test, y_train, y_test
+)
+
+print(result_lasso_mod)
+
+# The MSE on the training dataset was smaller for the linear model without
+# the regularization but the MSE on the test dataset was much higher.
+# This strongly suggests that the linear regression model was OVERFITTING
+
 plt.show()
