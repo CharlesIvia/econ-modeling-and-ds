@@ -6,6 +6,7 @@ import qeds
 from sklearn import linear_model, metrics, neural_network, pipeline, model_selection
 from itertools import cycle
 from sklearn.model_selection import cross_val_score
+import plotly.graph_objects as go
 
 qeds.themes.mpl_style()
 plotly_template = qeds.themes.plotly_template()
@@ -260,4 +261,55 @@ print(
     -np.log10(lasso.alpha_)
 )  # should roughly = minimizer on graph, not exactly equal due to random splitting
 
+# Random Forests
+
+# Regression trees
+n = 1000
+Xsim = np.random.rand(n, 2)
+
+
+def Ey_x(x):
+    return 1 / 3 * (np.sin(5 * x[0]) * np.sqrt(x[1]) * np.exp(-((x[1] - 0.5) ** 2)))
+
+
+ysim = np.apply_along_axis(Ey_x, 1, Xsim) + np.random.randn(n) * 0.1
+
+
+def surface_scatter_plot(
+    X, y, f, xlo=0.0, xhi=1.0, ngrid=50, width=860, height=700, f0=Ey_x, show_f0=False
+):
+    scatter = go.Scatter3d(
+        x=X[:, 0], y=X[:, 1], z=y, mode="markers", marker=dict(size=2, opacity=0.3)
+    )
+    xgrid = np.linspace(xlo, xhi, ngrid)
+    ey = np.zeros((len(xgrid), len(xgrid)))
+    ey0 = np.zeros((len(xgrid), len(xgrid)))
+    colorscale = [[0, colors[0]], [1, colors[2]]]
+    for i in range(len(xgrid)):
+        for j in range(len(xgrid)):
+            ey[j, i] = f([xgrid[i], xgrid[j]])
+            ey0[j, i] = f0([xgrid[i], xgrid[j]])
+    surface = go.Surface(x=xgrid, y=xgrid, z=ey, colorscale=colorscale, opacity=1.0)
+    if show_f0:
+        surface0 = go.Surface(
+            x=xgrid, y=xgrid, z=ey0, opacity=0.8, colorscale=colorscale
+        )
+        layers = [scatter, surface, surface0]
+    else:
+        layers = [scatter, surface]
+    fig = go.FigureWidget(
+        data=layers,
+        layout=go.Layout(
+            autosize=True,
+            scene=dict(xaxis_title="X1", yaxis_title="X2", zaxis_title="Y"),
+            width=width,
+            height=height,
+            template=plotly_template,
+        ),
+    )
+    return fig
+
+
+fig = surface_scatter_plot(Xsim, ysim, Ey_x)
+fig.show()
 plt.show()
