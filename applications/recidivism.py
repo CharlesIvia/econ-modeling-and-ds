@@ -31,3 +31,17 @@ print(df.describe())
 # priors_count: Number of previous arrests
 # decile_score: The COMPAS risk score
 # two_year_recid: Whether the individual had been jailed for a new crime in next two years
+
+
+# Descriptive statistics
+
+# Keep only data on race with at least 500 observations
+# Remember this can still perpetuate inequality by exclusion
+race_count = df.groupby(["race"])["name"].count()
+print(race_count)
+
+at_least_500 = list(race_count[race_count > 500].index)
+print(at_least_500)
+
+df = df.loc[df["race"].isin(at_least_500), :]
+print(df.head())
