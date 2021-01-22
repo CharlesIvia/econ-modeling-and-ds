@@ -45,3 +45,42 @@ print(at_least_500)
 
 df = df.loc[df["race"].isin(at_least_500), :]
 print(df.head())
+
+# Age, Sex and Race breakdown
+
+
+def create_groupcount_barplot(df, group_col, figsize, **kwargs):
+    "call df.groupby(group_col), then count number of records and plot"
+    counts = df.groupby(group_col)["name"].count().sort_index()
+
+    fig, ax = plt.subplots(figsize=figsize)
+    counts.plot(kind="bar", **kwargs)
+
+    ax.spines["right"].set_visible(False)
+    ax.spines["top"].set_visible(False)
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+
+    return fig, ax
+
+
+# By age
+
+age_cs = ["Less than 25", "25 - 45", "Greater than 45"]
+df["age_cat"] = pd.Categorical(df["age_cat"], categories=age_cs, ordered=True)
+fig, ax = create_groupcount_barplot(df, "age_cat", (14, 8), color="DarkBlue", rot=0)
+
+# By sex
+sex_cs = ["Female", "Male"]
+df["sex"] = pd.Categorical(df["sex"], categories=sex_cs, ordered=True)
+create_groupcount_barplot(df, "sex", (6, 8), color="DarkBlue", rot=0)
+
+# By race
+
+race_cs = ["African-American", "Caucasian", "Hispanic"]
+df["race"] = pd.Categorical(df["race"], categories=race_cs, ordered=True)
+create_groupcount_barplot(df, "race", (12, 8), color="DarkBlue", rot=0)
+
+# From these plots we learn that the population is mostly between 25-45, male, and
+# ...mostly African-American or Caucasian
+plt.show()
