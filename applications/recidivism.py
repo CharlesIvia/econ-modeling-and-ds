@@ -83,4 +83,10 @@ create_groupcount_barplot(df, "race", (12, 8), color="DarkBlue", rot=0)
 
 # From these plots we learn that the population is mostly between 25-45, male, and
 # ...mostly African-American or Caucasian
+
+# Recidivism and how it is split across groups
+
+recid = df.groupby(["age_cat", "sex", "race"])["two_year_recid"].mean().unstack("race")
+
+print(recid)
 plt.show()
