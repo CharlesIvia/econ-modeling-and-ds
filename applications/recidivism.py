@@ -16,6 +16,8 @@ qeds.themes.mpl_style()
 data_url = "https://raw.githubusercontent.com/propublica/compas-analysis"
 data_url += "/master/compas-scores-two-years.csv"
 
+print(data_url)
+
 df = pd.read_csv(data_url)
 print(df.head())
 print(df.describe())
@@ -89,4 +91,14 @@ create_groupcount_barplot(df, "race", (12, 8), color="DarkBlue", rot=0)
 recid = df.groupby(["age_cat", "sex", "race"])["two_year_recid"].mean().unstack("race")
 
 print(recid)
+
+# Risk scores
+
+# Each individual in the dataset is assigned a decile_score ranging from 1 to 10
+
+# This score represents the perceived risk of recidivism with 1 being the
+# lowest risk and 10 being the highest
+
+create_groupcount_barplot(df, "decile_score", (12, 8), color="DarkBlue", rot=0)
+
 plt.show()
