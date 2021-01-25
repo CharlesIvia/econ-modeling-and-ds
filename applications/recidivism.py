@@ -122,4 +122,30 @@ for (i, race) in enumerate(["African-American", "Caucasian", "Hispanic"]):
 
 fig.suptitle("Score Frequency by Race")
 fig.tight_layout()
+
+# From above figure, caucasians and hispanics see the majority of their score
+# distribution on low values while African-Americans are almost equally likely to
+# receive any score
+
+
+# Risk scores and recidivism
+
+# Want: Explore the relationship between the risk score and actual two year recidivism
+
+# First: Determine frequency of recidivism by decile score
+# This tells us what percentage of people assigned a particular risk score
+# committed a new crime within two years of being released.
+
+rr_freq = df.groupby("decile_score")["two_year_recid"].mean()
+print(rr_freq)
+
+# Correlation
+
+rr_corr = df[["decile_score", "two_year_recid"]].corr()
+print(rr_corr)
+
+# As the risk score increases, the percentage of people committing
+# a new crime does as well, with a positive correlation (~0.35).
+
+
 plt.show()
