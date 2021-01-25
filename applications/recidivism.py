@@ -147,5 +147,29 @@ print(rr_corr)
 # As the risk score increases, the percentage of people committing
 # a new crime does as well, with a positive correlation (~0.35).
 
+# Comparing correlations by race
 
+recid_rates = df.pivot_table(
+    index="decile_score", columns="race", values="two_year_recid"
+)
+
+print(recid_rates)
+
+fig, ax = plt.subplots(3, sharex="all")
+
+for (i, _race) in enumerate(["African-American", "Caucasian", "Hispanic"]):
+    _rr_vals = recid_rates[_race].values
+
+    ax[i].bar(np.arange(1, 11), _rr_vals, color="#c60000")
+    ax[i].bar(np.arange(1, 11), 1 - _rr_vals, bottom=_rr_vals, color="#353535")
+    ax[i].set_ylabel(_race)
+    ax[i].spines["left"].set_visible(False)
+    ax[i].spines["right"].set_visible(False)
+    ax[i].spines["top"].set_visible(False)
+    ax[i].spines["bottom"].set_visible(False)
+    ax[i].yaxis.tick_right()
+    ax[i].xaxis.set_ticks_position("none")
+
+fig.suptitle("Recidivism Rates by Race")
+fig.tight_layout()
 plt.show()
