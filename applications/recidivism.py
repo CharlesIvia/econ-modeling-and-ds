@@ -101,4 +101,25 @@ print(recid)
 
 create_groupcount_barplot(df, "decile_score", (12, 8), color="DarkBlue", rot=0)
 
+# comparing risk scores by race
+
+dfgb = df.groupby("race")
+race_count = df.groupby("race")["name"].count()
+
+fig, ax = plt.subplots(3, figsize=(14, 8))
+
+for (i, race) in enumerate(["African-American", "Caucasian", "Hispanic"]):
+    (
+        (
+            dfgb.get_group(race).groupby("decile_score")["name"].count()
+            / race_count[race]
+        ).plot(kind="bar", ax=ax[i], color="Grey")
+    )
+    ax[i].set_ylabel(race)
+    ax[i].set_xlabel("")
+    # set equal y limit for visual comparison
+    ax[i].set_ylim(0, 0.32)
+
+fig.suptitle("Score Frequency by Race")
+fig.tight_layout()
 plt.show()
