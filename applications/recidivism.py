@@ -3,7 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import qeds
-from sklearn import linear_model, metrics, neural_network, pipeline, model_selection
+from sklearn import (
+    linear_model,
+    metrics,
+    neural_network,
+    preprocessing,
+    pipeline,
+    model_selection,
+)
 from sklearn.model_selection import cross_val_score
 
 qeds.themes.mpl_style()
@@ -196,6 +203,27 @@ def prep_data(df, continuous_variables, categories, y_var, test_size=0.15):
     )
 
     return X_train, X_test, y_train, y_test
+
+
+def fit_and_report_maes(
+    mod, X_train, X_test, y_train, y_test, y_transform=None, y_inv_transform=None
+):
+    if y_transform is not None:
+        mod.fit(X_train, y_transform(y_train))
+    else:
+        mod.fit(X_train, y_train)
+
+    yhat_train = mod.predict(X_train)
+    yhat_test = mod.predict(X_test)
+
+    if y_transform is not None:
+        yhat_train = y_inv_transform(yhat_train)
+        yhat_test = y_inv_transform(yhat_test)
+
+    return dict(
+        mae_train=metrics.mean_absolute_error(y_train, yhat_train),
+        mae_test=metrics.mean_absolute_error(y_test, yhat_test),
+    )
 
 
 plt.show()
