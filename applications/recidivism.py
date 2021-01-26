@@ -172,4 +172,30 @@ for (i, _race) in enumerate(["African-American", "Caucasian", "Hispanic"]):
 
 fig.suptitle("Recidivism Rates by Race")
 fig.tight_layout()
+
+
+# Regression
+
+
+def prep_data(df, continuous_variables, categories, y_var, test_size=0.15):
+
+    ohe = preprocessing.OneHotEncoder(sparse=False)
+
+    y = df[y_var].values
+    X = np.zeros((y.size, 0))
+
+    # Add continuous variables if exist
+    if len(continuous_variables) > 0:
+        X = np.hstack([X, df[continuous_variables].values])
+
+    if len(categories) > 0:
+        X = np.hstack([X, ohe.fit_transform(df[categories])])
+
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(
+        X, y, test_size=test_size, random_state=42
+    )
+
+    return X_train, X_test, y_train, y_test
+
+
 plt.show()
