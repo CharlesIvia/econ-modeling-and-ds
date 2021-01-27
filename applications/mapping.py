@@ -54,6 +54,7 @@ world = world.set_index("iso_a3")
 
 print(world.head())
 
+# Plotting  SA
 fig, gax = plt.subplots(figsize=(10, 10))
 
 # By only plotting rows in which the continent is 'South America' we only plot SA.
@@ -62,10 +63,20 @@ world.query("continent == 'South America'").plot(
 )
 
 # By the way, if you haven't read the book 'longitude' by Dava Sobel, you should...
+
+# Plotting the cities
+
+gdf.plot(ax=gax, color="red", alpha=0.5)
+
 gax.set_xlabel("longitude")
 gax.set_ylabel("latitude")
+gax.set_title("South America")
 
 gax.spines["top"].set_visible(False)
 gax.spines["right"].set_visible(False)
+
+# Label the cities
+for x, y, label in zip(gdf["Coordinates"].x, gdf["Coordinates"].y, gdf["City"]):
+    gax.annotate(label, xy=(x, y), xytext=(4, 4), textcoords="offset points")
 
 plt.show()
