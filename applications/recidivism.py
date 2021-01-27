@@ -226,4 +226,27 @@ def fit_and_report_maes(
     )
 
 
+# Simple linear model using prior arrests to predict recidivism
+
+X_train, X_test, y_train, y_test = prep_data(df, ["priors_count"], [], "decile_score")
+
+simple_maes = fit_and_report_maes(
+    linear_model.LinearRegression(), X_train, X_test, y_train, y_test
+)
+print(simple_maes)
+
+
+lr_model = linear_model.LinearRegression()
+lr_model.fit(X_train, y_train)
+
+yhat_train = lr_model.predict(X_train)
+yhat_test = lr_model.predict(X_test)
+
+fig, ax = plt.subplots(1, 2, figsize=(12, 4), sharey="all")
+
+ax[0].hist(yhat_train - y_train, density=True)
+ax[0].set_title("Training Data")
+ax[1].hist(yhat_test - y_test, density=True)
+ax[1].set_title("Test Data")
+
 plt.show()
