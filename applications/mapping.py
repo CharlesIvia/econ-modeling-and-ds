@@ -42,3 +42,30 @@ print("ddf is of type:", type(gdf))
 # Determine which is the geometry column
 
 print("The geometry column is:", gdf.geometry.name)
+
+# Plotting a map
+
+# This is done in 3 steps: Get the map, Plot the map and lastly Plot the points on the map
+
+# Grab a low resolution world file
+
+world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
+world = world.set_index("iso_a3")
+
+print(world.head())
+
+fig, gax = plt.subplots(figsize=(10, 10))
+
+# By only plotting rows in which the continent is 'South America' we only plot SA.
+world.query("continent == 'South America'").plot(
+    ax=gax, edgecolor="black", color="white"
+)
+
+# By the way, if you haven't read the book 'longitude' by Dava Sobel, you should...
+gax.set_xlabel("longitude")
+gax.set_ylabel("latitude")
+
+gax.spines["top"].set_visible(False)
+gax.spines["right"].set_visible(False)
+
+plt.show()
