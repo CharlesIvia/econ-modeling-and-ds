@@ -94,4 +94,18 @@ print(state_df.columns)
 fig, gax = plt.subplots(figsize=(10, 10))
 state_df.query("NAME == 'Wisconsin'").plot(ax=gax, edgecolor="black", color="white")
 
+# Finding and plotting county borders
+
+county_df = gpd.read_file(
+    "http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_5m.zip"
+)
+print(county_df.head())
+
+print(county_df.columns)
+
+# Wisconsin’s FIPS code is 55 so we will make sure that we only keep those counties.
+
+county_df = county_df.query("STATEFP == '55'")
+county_df.plot(ax=gax, edgecolor="black", color="white")
+
 plt.show()
