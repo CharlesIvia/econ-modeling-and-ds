@@ -79,4 +79,19 @@ gax.spines["right"].set_visible(False)
 for x, y, label in zip(gdf["Coordinates"].x, gdf["Coordinates"].y, gdf["City"]):
     gax.annotate(label, xy=(x, y), xytext=(4, 4), textcoords="offset points")
 
+
+# Case Study: Voting in Winsconsin 2016 Presidential Election
+
+# Find and plot state border
+
+state_df = gpd.read_file(
+    "http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_state_5m.zip"
+)
+print(state_df.head())
+
+print(state_df.columns)
+
+fig, gax = plt.subplots(figsize=(10, 10))
+state_df.query("NAME == 'Wisconsin'").plot(ax=gax, edgecolor="black", color="white")
+
 plt.show()
