@@ -133,6 +133,15 @@ res_w_states["trump_share"] = res_w_states["trump"] / (res_w_states["total"])
 res_w_states["rel_trump_share"] = res_w_states["trump"] / (
     res_w_states["trump"] + res_w_states["clinton"]
 )
+
+res_w_states["rel_clint_share"] = res_w_states["clinton"] / (
+    res_w_states["trump"] + res_w_states["clinton"]
+)
+
+res_w_states["combined"] = (
+    res_w_states["rel_trump_share"] + res_w_states["rel_clint_share"]
+)
+
 print(res_w_states.head())
 
 # Create a visualization on a map
@@ -159,6 +168,24 @@ gax.annotate("Republican vote share", xy=(0.76, 0.06), xycoords="figure fraction
 # Remove long and lat from axis
 plt.axis("off")
 
-plt.show()
+# Deductions
+
+# Counties won
+
+# by Trump
+trump_counties = res_w_states.eval("trump > clinton").sum()
+print(trump_counties)
+
+# by Clinton
+clinton_counties = res_w_states.eval("clinton > trump").sum()
+print(clinton_counties)
+
+# Votes share
+
+trump_votes = res_w_states["trump"].sum()
+print(trump_votes)
+
+clinton_votes = res_w_states["clinton"].sum()
+print(clinton_votes)
 
 plt.show()
