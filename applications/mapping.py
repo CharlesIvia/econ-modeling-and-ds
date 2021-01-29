@@ -134,4 +134,31 @@ res_w_states["rel_trump_share"] = res_w_states["trump"] / (
     res_w_states["trump"] + res_w_states["clinton"]
 )
 print(res_w_states.head())
+
+# Create a visualization on a map
+
+fig, gax = plt.subplots(figsize=(10, 8))
+
+# Plot the state
+state_df[state_df["NAME"] == "Wisconsin"].plot(ax=gax, edgecolor="black", color="white")
+
+# Plot the counties and pass 'rel_trump_share' as the data to color
+res_w_states.plot(
+    ax=gax,
+    edgecolor="black",
+    column="rel_trump_share",
+    legend=True,
+    cmap="RdBu_r",
+    vmin=0.2,
+    vmax=0.8,
+)
+
+# Add text to let people know what we are plotting
+gax.annotate("Republican vote share", xy=(0.76, 0.06), xycoords="figure fraction")
+
+# Remove long and lat from axis
+plt.axis("off")
+
+plt.show()
+
 plt.show()
