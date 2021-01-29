@@ -108,4 +108,30 @@ print(county_df.columns)
 county_df = county_df.query("STATEFP == '55'")
 county_df.plot(ax=gax, edgecolor="black", color="white")
 
+# Get winsonsin vote data
+
+results = pd.read_csv(
+    "https://datascience.quantecon.org/assets/data/ruhl_cleaned_results.csv",
+    thousands=",",
+)
+print(results.head())
+
+# Clean the data
+results["county"] = results["county"].str.title()
+results["county"] = results["county"].str.strip()
+county_df["NAME"] = county_df["NAME"].str.title()
+county_df["NAME"] = county_df["NAME"].str.strip()
+
+# Merge election results with county data
+
+res_w_states = county_df.merge(results, left_on="NAME", right_on="county", how="inner")
+
+print(res_w_states.head())
+
+# Trump share
+res_w_states["trump_share"] = res_w_states["trump"] / (res_w_states["total"])
+res_w_states["rel_trump_share"] = res_w_states["trump"] / (
+    res_w_states["trump"] + res_w_states["clinton"]
+)
+print(res_w_states.head())
 plt.show()
