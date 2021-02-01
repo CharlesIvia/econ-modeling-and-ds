@@ -24,7 +24,10 @@ print(unemp.tail())
 
 # Basic plotting
 
-unemp.plot()
+ax = unemp.plot()
+ax.set_xlabel("Years")
+ax.set_ylabel("Unemployment Rate")
+ax.set_title("Unemployment Over Time")
 # plt.show()
 
 # Unique values
@@ -59,7 +62,7 @@ print(unemp_region.head())
 print(unemp_region.tail(3))
 
 unemp_region.plot()
-# plt.show()
+plt.show()
 
 # Indexing a dataframe .loc[row, column]
 
@@ -106,7 +109,7 @@ print(str_unemp.sum())
 
 # Changing dataframes
 
-# New columns - df["New Column Name"] = new_values
+# New columns -> df["New Column Name"] = new_values
 
 unemp_region["UnweightedMean"] = (
     unemp_region["NorthEast"]
