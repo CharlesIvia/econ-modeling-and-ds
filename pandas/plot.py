@@ -9,8 +9,7 @@ import qeds
 
 qeds.themes.mpl_style()
 
-quandl.ApiConfig.api_key = os.environ.get(
-    "QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
+quandl.ApiConfig.api_key = os.environ.get("QUANDL_AUTH", "Dn6BtVoBhzuKTuyo6hbp")
 
 # WANT: Visualize the impact of iphone announcements on apple share prices
 
@@ -60,8 +59,14 @@ print(aapl.head())
 
 fig, ax = plt.subplots(1, 2, figsize=(10, 6))
 
+font = 12
+
+print(aapl[["Adj. Low", "Adj. High"]])
 
 ax[0].plot(aapl[["Adj. Low", "Adj. High"]])
 ax[1].plot(aapl[["Low", "High"]])
+ax[0].set_xlabel("Year", fontsize=font)
+ax[0].set_ylabel("Shape Price", fontsize=font)
+ax[1].set_xlabel("Year", fontsize=font)
 
 plt.show()
