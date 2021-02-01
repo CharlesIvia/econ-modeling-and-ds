@@ -219,3 +219,4 @@ print(all_high.sum())
 
 msg = "Out of {} months, {} had high unemployment accros all states"
 print(msg.format(len(all_high), all_high.sum()))
+plt.show()
