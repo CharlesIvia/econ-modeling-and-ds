@@ -58,3 +58,27 @@ pd.options.display.max_rows = 20
 pd.options.display.max_columns = 8
 
 print(incident_brief)
+
+
+# Get more details about the avalanche incidents
+
+
+def get_incident_details(id):
+    url = "http://incidents.avalanche.ca/public/incidents/{}?format=json".format(id)
+    req = urllib.request.Request(url)
+    with urllib.request.urlopen(req) as response:
+        result = json.loads(response.read().decode("utf-8"))
+    return result
+
+
+incidentsfile = "avalanche_incidents.csv"
+
+# To avoid loading the avalanche Canada servers, we save the incident details locally.
+if not os.path.isfile(incidentsfile):
+    incident_detail_list = incident_brief.id.apply(get_incident_details).to_list()
+    incidents = pd.DataFrame.from_dict(incident_detail_list, orient="columns")
+    incidents.to_csv(incidentsfile)
+else:
+    incidents = pd.read_csv(incidentsfile)
+
+print(incidents)
