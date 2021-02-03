@@ -3,10 +3,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import qeds
-from sklearn import linear_model, metrics, neural_network, pipeline, model_selection
+from sklearn import (
+    linear_model,
+    metrics,
+    neural_network,
+    pipeline,
+    model_selection,
+    tree,
+)
 from itertools import cycle
 from sklearn.model_selection import cross_val_score
 import plotly.graph_objects as go
+import graphviz
 
 qeds.themes.mpl_style()
 plotly_template = qeds.themes.plotly_template()
@@ -312,4 +320,24 @@ def surface_scatter_plot(
 
 fig = surface_scatter_plot(Xsim, ysim, Ey_x)
 fig.show()
+# Fit regression tree to this data
+
+fitted_tree = tree.DecisionTreeRegressor(max_depth=3).fit(Xsim, ysim)
+fig = surface_scatter_plot(Xsim, ysim, lambda x: fitted_tree.predict([x]), show_f0=True)
+
+
+tree_graph = tree.export_graphviz(
+    fitted_tree,
+    out_file=None,
+    feature_names=["X1", "X2"],
+    filled=True,
+    rounded=True,
+    special_characters=True,
+)
+graphviz.Source(tree_graph)
+
+ax = var_scatter(df, var="zipcode")
+zip_tree = tree.DecisionTreeRegressor(max_depth=10).fit(X[["zipcode"]], y)
+scatter_model(zip_tree, X[["zipcode"]], ax, x="zipcode", color="red")
+
 plt.show()
