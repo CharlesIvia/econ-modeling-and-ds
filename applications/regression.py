@@ -11,6 +11,7 @@ from sklearn import (
     model_selection,
     tree,
     neural_network,
+    preprocessing,
 )
 from itertools import cycle
 from sklearn.model_selection import cross_val_score
@@ -362,5 +363,35 @@ scatter_model(nn_model, X, ax=ax)
 
 mse_nn = metrics.mean_squared_error(y, nn_model.predict(X))
 mse_nn / metrics.mean_squared_error(y, lr_model.predict(X))
+
+# Input scaling
+
+# Steps taken
+
+# Store the mean and standard deviation of each feature in the training set.
+# Subtract each feature’s mean from the training data and then divide by the feature’s standard deviation before fitting.
+# Subtract the training data’s mean and divide by training data’s standard deviation for all prediction inputs.
+
+# the pipeline defines any number of steps that will be applied
+# to transform the `X` data and then a final step that is a model
+# we can use for prediction
+
+nn_scaled_model = pipeline.make_pipeline(
+    preprocessing.StandardScaler(),  # this will do the input scaling
+    neural_network.MLPRegressor((30, 20)),  # put your favorite model here
+)
+
+# Use the `model` like we have used our other models all along
+# Call fit
+nn_scaled_model.fit(X, y)
+
+# Call predict
+mse_nn_scaled = metrics.mean_squared_error(y, nn_scaled_model.predict(X))
+
+print(f"Unscaled mse {mse_nn}")
+print(f"Scaled mse {mse_nn_scaled}")
+
+ax = var_scatter(df)
+scatter_model(nn_scaled_model, X, ax=ax)
 
 plt.show()
