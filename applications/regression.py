@@ -10,6 +10,7 @@ from sklearn import (
     pipeline,
     model_selection,
     tree,
+    neural_network,
 )
 from itertools import cycle
 from sklearn.model_selection import cross_val_score
@@ -339,5 +340,27 @@ graphviz.Source(tree_graph)
 ax = var_scatter(df, var="zipcode")
 zip_tree = tree.DecisionTreeRegressor(max_depth=10).fit(X[["zipcode"]], y)
 scatter_model(zip_tree, X[["zipcode"]], ax, x="zipcode", color="red")
+
+
+# Neural networks
+
+X = df.drop(["price", "date", "id", "log_price"], axis=1).copy()
+
+for col in list(X):
+    X[col] = X[col].astype(float)
+y = np.log(df["price"])
+
+# two hidden layers, with N1=30 and N2=20
+
+nn_model = neural_network.MLPRegressor((30, 20))
+nn_model.fit(X, y)
+
+ax = var_scatter(df)
+scatter_model(nn_model, X, ax=ax)
+
+# Check MSE
+
+mse_nn = metrics.mean_squared_error(y, nn_model.predict(X))
+mse_nn / metrics.mean_squared_error(y, lr_model.predict(X))
 
 plt.show()
