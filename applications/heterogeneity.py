@@ -48,3 +48,22 @@ import re
 
 # remove [ ] from names for compatibility with xgboost
 Xl = Xl.rename(columns=lambda x: re.sub("\[|\]", "_", x))
+
+
+# Estimate average treatment effects
+from statsmodels.iolib.summary2 import summary_col
+
+tmp = pd.DataFrame(
+    dict(
+        birthweight=bw,
+        treatment=treatment,
+        assisted_delivery=df.loc[X.index, "good_assisted_delivery"],
+    )
+)
+usage = smf.ols("assisted_delivery ~ treatment", data=tmp).fit(
+    cov_type="cluster", cov_kwds={"groups": loc_id}
+)
+health = smf.ols("bw ~ treatment", data=tmp).fit(
+    cov_type="cluster", cov_kwds={"groups": loc_id}
+)
+print(summary_col([usage, health]))
