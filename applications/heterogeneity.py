@@ -67,3 +67,14 @@ health = smf.ols("bw ~ treatment", data=tmp).fit(
     cov_type="cluster", cov_kwds={"groups": loc_id}
 )
 print(summary_col([usage, health]))
+
+
+# for clustering standard errors
+def get_treatment_se(fit, cluster_id, rows=None):
+    if cluster_id is not None:
+        if rows is None:
+            rows = [True] * len(cluster_id)
+        vcov = sm.stats.sandwich_covariance.cov_cluster(fit, cluster_id.loc[rows])
+        return np.sqrt(np.diag(vcov))
+
+    return fit.HC0_se
