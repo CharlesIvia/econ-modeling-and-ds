@@ -42,3 +42,20 @@ beta_0 = logistic_model.intercept_[0]
 beta_1 = logistic_model.coef_[0][0]
 
 print(f"Fit model: p(recid) = L({beta_0:.4f} + {beta_1:.4f} decile_score)")
+
+# Decesion boundaries
+
+X = df[["decile_score", "age"]]
+X_train, X_test, y_train, y_test = model_selection.train_test_split(
+    X, y, test_size=0.25, random_state=42
+)
+
+logistic_age_model = linear_model.LogisticRegression(solver="lbfgs")
+logistic_age_model.fit(X_train, y_train)
+
+beta_0 = logistic_age_model.intercept_[0]
+beta_1, beta_2 = logistic_age_model.coef_[0]
+
+print(
+    f"Fit model: p(recid) = L({beta_0:.4f} + {beta_1:.4f} decile_score + {beta_2:.4f} age)"
+)
