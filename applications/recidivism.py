@@ -249,4 +249,20 @@ ax[0].set_title("Training Data")
 ax[1].hist(yhat_test - y_test, density=True)
 ax[1].set_title("Test Data")
 
+# Recidivism per each category
+
+names = [
+    "priors_count",
+    "Less than 25",
+    "25-45",
+    "Greater than 45",
+    "African-American",
+    "Caucasian",
+    "Hispanic",
+    "Female",
+    "Male",
+]
+for (_name, _coef) in zip(names, lr_model.coef_):
+    print(_name, ": ", _coef)
+
 plt.show()
