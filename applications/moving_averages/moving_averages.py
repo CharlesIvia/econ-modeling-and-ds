@@ -150,4 +150,55 @@ plt.title("The yearly accumulated rainfall in Barcelona", fontsize=20)
 plt.xlabel("Year", fontsize=16)
 plt.ylabel("Rainfall [mm]", fontsize=16)
 
+
+# The Cumulative Moving Average
+
+# temperature
+
+df_temperature["CMA"] = df_temperature.average_temperature.expanding().mean()
+print(df_temperature)
+# rainfall
+df_rainfall["CMA"] = df_rainfall.accumulated_rainfall.expanding().mean()
+print(df_rainfall)
+
+# Plot showing CMA for temperature
+
+# colors for the line plot
+colors = ["green", "orange"]
+
+# line plot - the yearly average air temperature in Barcelona
+df_temperature[["average_temperature", "CMA"]].plot(
+    color=colors, linewidth=3, figsize=(12, 6)
+)
+
+# modify ticks size
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.legend(labels=["Average air temperature", "CMA"], fontsize=14)
+
+# title and labels
+plt.title("The yearly average air temperature in Barcelona", fontsize=20)
+plt.xlabel("Year", fontsize=16)
+plt.ylabel("Temperature [°C]", fontsize=16)
+
+# Plot showing CMA for rainfall
+
+# colors for the line plot
+colors = ["steelblue", "deeppink"]
+
+# line plot - the yearly accumulated rainfall in Barcelona
+df_rainfall[["accumulated_rainfall", "CMA"]].plot(
+    color=colors, linewidth=2, figsize=(12, 6)
+)
+
+# modify ticks size
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.legend(labels=["Accumulated rainfall", "CMA"], fontsize=14)
+
+# title and labels
+plt.title("The yearly accumulated rainfall in Barcelona", fontsize=20)
+plt.xlabel("Year", fontsize=16)
+plt.ylabel("Rainfall [mm]", fontsize=16)
+
 plt.show()
