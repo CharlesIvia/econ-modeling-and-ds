@@ -37,3 +37,17 @@
 
 - From the results, the CMA is a bad option in anlayzing trends
 
+# Exponential Moving Average 
+
+- The exponential moving average is a widely used method to filter out noise and identify trends. The weight of each element decreases progressively over time, meaning the exponential moving average gives greater weight to recent data points. This is done under the idea that recent data is more relevant than old data.
+
+- Compared to the simple moving average, the exponential moving average reacts faster to changes, since is more sensitive to recent movements.
+
+- EMAt = { axt + (1- α)EMAt- 1 :  t =0, t > 0
+
+-Where: 
+
+- xₜ is the observation at the time period t.
+- EMAₜ is the exponential moving average at the time period t.
+- α is the smoothing factor. The smoothing factor has a value between 0 and 1 and represents the weighting applied to the most recent period.
+
