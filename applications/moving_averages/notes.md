@@ -26,3 +26,14 @@
 - The size of the window (number of periods) is specified in the argument window.
 
 - Rolling method can be used together with other statistical functions such as .rolling().min(), .rolling().max(),.rolling().median(),.rolling().std(),.rolling().var(),.rolling().sum(),
+
+# Cumulative Moving Average 
+
+- The Cumulative Moving Average is the unweighted mean of the previous values up to the current time t.
+
+-CMAt = x1 + x2 + x3 + ... + xt /t
+
+-The simple moving average has a sliding window of constant size M. On the contrary, the window size becomes larger as the time passes when computing the cumulative moving average
+
+- From the results, the CMA is a bad option in anlayzing trends
+
