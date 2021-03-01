@@ -201,4 +201,85 @@ plt.title("The yearly accumulated rainfall in Barcelona", fontsize=20)
 plt.xlabel("Year", fontsize=16)
 plt.ylabel("Rainfall [mm]", fontsize=16)
 
+
+# Exponential Moving Average
+
+# Temperature
+
+
+# smoothing factor - 0.1
+df_temperature["EMA_0.1"] = df_temperature.average_temperature.ewm(
+    alpha=0.1, adjust=False
+).mean()
+
+# smoothing factor - 0.3
+df_temperature["EMA_0.3"] = df_temperature.average_temperature.ewm(
+    alpha=0.3, adjust=False
+).mean()
+
+print(df_temperature)
+
+# rainfall
+# smoothing factor - 0.1
+df_rainfall["EMA_0.1"] = df_rainfall.accumulated_rainfall.ewm(
+    alpha=0.1, adjust=False
+).mean()
+
+# smoothing factor - 0.3
+df_rainfall["EMA_0.3"] = df_rainfall.accumulated_rainfall.ewm(
+    alpha=0.3, adjust=False
+).mean()
+print(df_rainfall)
+
+# Plotting EMA
+
+# Temperature
+
+# colors for the line plot
+colors = ["green", "orchid", "orange"]
+
+# line plot - the yearly average air temperature in Barcelona
+df_temperature[["average_temperature", "EMA_0.1", "EMA_0.3"]].plot(
+    color=colors, linewidth=2, figsize=(12, 6), alpha=0.8
+)
+
+# modify ticks size
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.legend(
+    labels=["Average air temperature", "EMA - alpha=0.1", "EMA - alpha=0.3"],
+    fontsize=14,
+)
+
+# title and labels
+plt.title("The yearly average air temperature in Barcelona", fontsize=20)
+plt.xlabel("Year", fontsize=16)
+plt.ylabel("Temperature [°C]", fontsize=16)
+
+
+# Rainfall
+
+# colors for the line plot
+colors = ["steelblue", "coral", "green"]
+
+# line plot - the yearly accumulated rainfall in Barcelona
+df_rainfall[["accumulated_rainfall", "EMA_0.1", "EMA_0.3"]].plot(
+    color=colors, linewidth=2, figsize=(12, 6), alpha=0.8
+)
+
+# modify ticks size
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.legend(
+    labels=["Accumulated rainfall", "EMA - alpha=0.1", "EMA - alpha=0.3"], fontsize=14
+)
+
+# title and labels
+plt.title("The yearly accumulated rainfall in Barcelona", fontsize=20)
+plt.xlabel("Year", fontsize=16)
+plt.ylabel("Rainfall [mm]", fontsize=16)
+
 plt.show()
+
+# As shown above, a small weighting factor α results in a high degree of
+# smoothing, while a larger value provides a quicker response to recent changes.
