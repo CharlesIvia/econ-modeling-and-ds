@@ -2,6 +2,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 plt.style.use("seaborn")
 
@@ -279,7 +280,35 @@ plt.title("The yearly accumulated rainfall in Barcelona", fontsize=20)
 plt.xlabel("Year", fontsize=16)
 plt.ylabel("Rainfall [mm]", fontsize=16)
 
-plt.show()
+# plt.show()
 
 # As shown above, a small weighting factor α results in a high degree of
 # smoothing, while a larger value provides a quicker response to recent changes.
+
+# the weights of the simple and exponential moving averages (alpha=0.3, adjust=False) for 15 data points
+
+# smoothing factor and number of data points
+ALPHA = 0.3
+N = 15
+
+# weights - simple moving average
+w_sma = np.repeat(1 / N, N)
+
+# weights - exponential moving average alpha=0.3 adjust=False
+w_ema = [(1 - ALPHA) ** i if i == N - 1 else ALPHA * (1 - ALPHA) ** i for i in range(N)]
+
+# store the values in a data frame
+pd.DataFrame({"w_sma": w_sma, "w_ema": w_ema}).plot(kind="bar", figsize=(10, 6))
+
+# modify ticks size and labels
+plt.xticks([])
+plt.yticks(fontsize=14)
+plt.legend(
+    labels=["Simple moving average", "Exponential moving average (α=0.3)"], fontsize=14
+)
+
+# title and labels
+plt.title("Moving Average Weights", fontsize=20)
+plt.ylabel("Weights", fontsize=16)
+
+plt.show()
