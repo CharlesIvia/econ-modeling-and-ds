@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn import datasets
 from sklearn.linear_model import LinearRegression
+from statsmodels.stats.diagnostic import normal_ad
 
 # data - features, predictors, label - target/label/response variable
 
@@ -107,4 +108,63 @@ def linear_assumption(model, features, label):
 # Linearlity in the linear dataset
 
 linear_assumption(linear_model, linear_X, linear_y)
+
+# Linearlity in the boston dataset
 linear_assumption(boston_model, boston.data, boston.target)
+
+
+# Second assumption- normality of the error terms
+
+# this assumes that the error terms of the model are normally distributed
+
+# Cause of non-normality - if ind or dependent variables are significantly non-normal
+
+# Test - a histogram and the p-value from the Anderson-Darling test for normality.
+
+# Fix - nonlinear variable transformations, exluding some varibales (lon-tailed variables) or removing outliers
+
+
+def normal_errors_assumption(model, features, label, p_value_thresh=0.05):
+    """
+    Normality: Assumes that the error terms are normally distributed. If they are not,
+    nonlinear transformations of variables may solve this.
+
+    This assumption being violated primarily causes issues with the confidence intervals
+    """
+    print("Assumption 2: The error terms are normally distributed", "\n")
+
+    # Calculating residuals for the Anderson-Darling test
+    df_results = calculate_residuals(model, features, label)
+
+    print("Using the Anderson-Darling test for normal distribution")
+
+    # Performing the test on the residuals
+    p_value = normal_ad(df_results["Residuals"])[1]
+    print("p-value from the test - below 0.05 generally means non-normal:", p_value)
+
+    # Reporting the normality of the residuals
+    if p_value < p_value_thresh:
+        print("Residuals are not normally distributed")
+    else:
+        print("Residuals are normally distributed")
+
+    # Plotting the residuals distribution
+    plt.subplots(figsize=(12, 6))
+    plt.title("Distribution of Residuals")
+    sns.distplot(df_results["Residuals"])
+    plt.show()
+
+    print()
+    if p_value > p_value_thresh:
+        print("Assumption satisfied")
+    else:
+        print("Assumption not satisfied")
+        print()
+        print("Confidence intervals will likely be affected")
+        print("Try performing nonlinear transformations on variables")
+
+
+# Normality test for the linear dataset
+
+normal_errors_assumption(linear_model, linear_X, linear_y)
+normal_errors_assumption(boston_model, boston.data, boston.target)
