@@ -305,3 +305,51 @@ autocorrelation_assumption(linear_model, linear_X, linear_y)
 # Testing for autocorrelation in the boston dataset
 
 autocorrelation_assumption(boston_model, boston.data, boston.target)
+
+# Fifth Assumption: Homoscedasticity
+
+# This assumes homoscedasticity, which is the same variance within our error term
+
+# Heteroscedasticity, the violation of homoscedasticity, occurs when we don’t have an even variance across the error terms
+
+# Cause? model may be giving too much weight to a subset of the data, particularly where the error variance was the largest.
+
+# Effect? Significance tests for coefficients due to the standard errors being biased.
+# Additionally, the confidence intervals will be either too wide or too narrow.
+
+# Test? Plot the residuals and see if the variance appears to be uniform.
+
+# Fix? Heteroscedasticity can be solved either by using weighted least squares
+# regression instead of the standard OLS or transforming either the dependent or
+# highly skewed variables. Performing a log transformation on the dependent variable is not a bad place to start.
+
+
+def homoscedasticity_assumption(model, features, label):
+    """
+    Homoscedasticity: Assumes that the errors exhibit constant variance
+    """
+    print("Assumption 5: Homoscedasticity of Error Terms", "\n")
+
+    print("Residuals should have relative constant variance")
+
+    # Calculating residuals for the plot
+    df_results = calculate_residuals(model, features, label)
+
+    # Plotting the residuals
+    plt.subplots(figsize=(12, 6))
+    ax = plt.subplot(111)  # To remove spines
+    plt.scatter(x=df_results.index, y=df_results.Residuals, alpha=0.5)
+    plt.plot(np.repeat(0, df_results.index.max()), color="darkorange", linestyle="--")
+    ax.spines["right"].set_visible(False)  # Removing the right spine
+    ax.spines["top"].set_visible(False)  # Removing the top spine
+    plt.title("Residuals")
+    plt.show()
+
+
+# Homoscedasticity assumption for the linear dataset
+
+homoscedasticity_assumption(linear_model, linear_X, linear_y)
+
+# Homoscedasticity assumption for the boston dataset
+
+homoscedasticity_assumption(boston_model, boston.data, boston.target)
