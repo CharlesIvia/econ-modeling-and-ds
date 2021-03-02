@@ -8,6 +8,8 @@ from sklearn import datasets
 from sklearn.linear_model import LinearRegression
 from statsmodels.stats.diagnostic import normal_ad
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.stats.stattools import durbin_watson
+
 
 # data - features, predictors, label - target/label/response variable
 
@@ -242,3 +244,64 @@ multicollinearity_assumption(linear_model, linear_X, linear_y, linear_feature_na
 multicollinearity_assumption(
     boston_model, boston.data, boston.target, boston.feature_names
 )
+
+
+# Fourth Assumption: No Autocorrelation of the error terms
+
+# Autocorrelation being present typically indicates that we are missing some information that should be captured by the model
+
+# Why it can happen?
+
+# In a time series scenario, there could be information about the past that
+# we aren’t capturing. In a non-time series scenario, our model could be systematically
+# biased by either under or over predicting in certain conditions.
+# Lastly, this could be a result of a violation of the linearity assumption.
+
+# This will impact our model estimates.
+
+# Detection: perform a Durbin-Watson test to determine if either positive or negative correlation is present. Alternatively, you could create plots of residual autocorrelations.
+
+# Fix: Adding lag variables can fix this problem.
+# Alternatively, interaction terms, additional variables, or additional transformations may fix thi
+
+
+def autocorrelation_assumption(model, features, label):
+    """
+    Autocorrelation: Assumes that there is no autocorrelation in the residuals. If there is
+                     autocorrelation, then there is a pattern that is not explained due to
+                     the current value being dependent on the previous value.
+                     This may be resolved by adding a lag variable of either the dependent
+                     variable or some of the predictors.
+    """
+    print("Assumption 4: No Autocorrelation", "\n")
+
+    # Calculating residuals for the Durbin Watson-tests
+    df_results = calculate_residuals(model, features, label)
+
+    print("\nPerforming Durbin-Watson Test")
+    print(
+        "Values of 1.5 < d < 2.5 generally show that there is no autocorrelation in the data"
+    )
+    print("0 to 2< is positive autocorrelation")
+    print(">2 to 4 is negative autocorrelation")
+    print("-------------------------------------")
+    durbinWatson = durbin_watson(df_results["Residuals"])
+    print("Durbin-Watson:", durbinWatson)
+    if durbinWatson < 1.5:
+        print("Signs of positive autocorrelation", "\n")
+        print("Assumption not satisfied")
+    elif durbinWatson > 2.5:
+        print("Signs of negative autocorrelation", "\n")
+        print("Assumption not satisfied")
+    else:
+        print("Little to no autocorrelation", "\n")
+        print("Assumption satisfied")
+
+
+# Testing for autocorrelation in the linear dataset
+
+autocorrelation_assumption(linear_model, linear_X, linear_y)
+
+# Testing for autocorrelation in the boston dataset
+
+autocorrelation_assumption(boston_model, boston.data, boston.target)
