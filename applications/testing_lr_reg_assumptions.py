@@ -49,3 +49,14 @@ linear_model.fit(linear_X, linear_y)
 # Returning the R^2 for the model
 linear_r2 = linear_model.score(linear_X, linear_y)
 print("R^2: {0}".format(linear_r2))
+
+
+def calculate_residuals(model, features, label):
+    """
+    Creates predictions on the features with the model and calculates residuals
+    """
+    predictions = model.predict(features)
+    df_results = pd.DataFrame({"Actual": label, "Predicted": predictions})
+    df_results["Residuals"] = abs(df_results["Actual"]) - abs(df_results["Predicted"])
+
+    return df_results
