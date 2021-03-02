@@ -7,6 +7,7 @@ import seaborn as sns
 from sklearn import datasets
 from sklearn.linear_model import LinearRegression
 from statsmodels.stats.diagnostic import normal_ad
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 # data - features, predictors, label - target/label/response variable
 
@@ -168,3 +169,76 @@ def normal_errors_assumption(model, features, label, p_value_thresh=0.05):
 
 normal_errors_assumption(linear_model, linear_X, linear_y)
 normal_errors_assumption(boston_model, boston.data, boston.target)
+
+# Third Assumption -  No Multicollinearity among Predictors
+
+# This assumes that the predictors used in the regression are not correlated with each other
+
+# This won’t render our model unusable if violated, but it will cause issues with the interpretability of the model
+
+
+# Detection: use a heatmap of the correlation as a visual aid and examine the variance inflation factor (VIF)
+
+
+def multicollinearity_assumption(model, features, label, feature_names=None):
+    """
+    Multicollinearity: Assumes that predictors are not correlated with each other. If there is
+                       correlation among the predictors, then either remove prepdictors with high
+                       Variance Inflation Factor (VIF) values or perform dimensionality reduction
+
+                       This assumption being violated causes issues with interpretability of the
+                       coefficients and the standard errors of the coefficients.
+    """
+    print("Assumption 3: Little to no multicollinearity among predictors")
+
+    # Plotting the heatmap
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(pd.DataFrame(features, columns=feature_names).corr(), annot=True)
+    plt.title("Correlation of Variables")
+    plt.show()
+
+    print("Variance Inflation Factors (VIF)")
+    print("> 10: An indication that multicollinearity may be present")
+    print("> 100: Certain multicollinearity among the variables")
+    print("-------------------------------------")
+
+    # Gathering the VIF for each variable
+    VIF = [variance_inflation_factor(features, i) for i in range(features.shape[1])]
+    for idx, vif in enumerate(VIF):
+        print("{0}: {1}".format(feature_names[idx], vif))
+
+    # Gathering and printing total cases of possible or definite multicollinearity
+    possible_multicollinearity = sum([1 for vif in VIF if vif > 10])
+    definite_multicollinearity = sum([1 for vif in VIF if vif > 100])
+    print()
+    print(f"{possible_multicollinearity} cases of possible multicollinearity.")
+    print(f"{definite_multicollinearity} cases of definite multicollinearity.")
+    print()
+
+    if definite_multicollinearity == 0:
+        if possible_multicollinearity == 0:
+            print("Assumption satisfied")
+        else:
+            print("Assumption possibly satisfied")
+            print()
+            print("Coefficient interpretability may be problematic")
+            print(
+                "Consider removing variables with a high Variance Inflation Factor (VIF)"
+            )
+
+    else:
+        print("Assumption not satisfied")
+        print()
+        print("Coefficient interpretability will be problematic")
+        print("Consider removing variables with a high Variance Inflation Factor (VIF)")
+
+
+# Multicollinearlity in the linear dataset
+
+multicollinearity_assumption(linear_model, linear_X, linear_y, linear_feature_names)
+
+# Multicollinearlity in the boston dataset
+
+multicollinearity_assumption(
+    boston_model, boston.data, boston.target, boston.feature_names
+)
